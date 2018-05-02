@@ -5,7 +5,7 @@ public class SpeedPoint {
     /**
      * Velocity in meters/seconds
      */
-    private double velocity;
+    private double velocity; 
     /**
      * Curvature in radians/seconds
      */

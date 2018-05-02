@@ -15,4 +15,11 @@ public class PathSegment {
         this.end = end;
     }
     
+    public Point3 getStart() {
+        return this.start;
+    }
+
+    public Point3 getEnd() {
+        return this.end;
+    }
 }

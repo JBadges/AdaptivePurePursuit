@@ -15,14 +15,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import util.Point3;
 
 public class PathCreation {
 
     private static List<Point3> waypoints;
-    private static List<Circle> waypointCircles;
+    private static List<StackPane> waypointCircles;
 
     public static Scene getScene() {
         waypoints = new ArrayList<>();
@@ -38,9 +37,6 @@ public class PathCreation {
             @Override
             public void handle(ActionEvent event) {
                 if(waypoints.size() >= 2)  {
-                    for(int i = 0; i < waypoints.size()-1; i++) {
-                        sp.getChildren().add(new Line(waypoints.get(i).getX(), waypoints.get(i).getY(), waypoints.get(i+1).getX(), waypoints.get(i+1).getY()));
-                    }
                     Main.changeScene(SimulationScene.getScene()); 
                 }
             }
@@ -58,21 +54,17 @@ public class PathCreation {
 
                     Circle circ = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
                     waypoints.add(new Point3(mouseEvent.getX(), mouseEvent.getY()));
-                    waypointCircles.add(circ);
 
                     Label circleLabel = new Label(""+waypointCircles.size());
                     circleLabel.setTextAlignment(TextAlignment.CENTER);
                     circ.radiusProperty().bind(circleLabel.widthProperty());
 
-                    //Changing the color based on number of waypoints
-                    for(int i = 0; i < waypointCircles.size(); i++) {
-                        double scalar = 1.0/waypointCircles.size();
-                        Circle c = waypointCircles.get(i);
-                        c.setFill(new Color(i*scalar, 1-(i*scalar), 0, 1));
-                    }
-
                     stackPane.getChildren().addAll(circ, circleLabel);
+                    waypointCircles.add(stackPane);
                     
+                    //Changing the color based on number of waypoints
+                    circleColors(waypointCircles);
+
                     stackPane.setLayoutX(circ.getCenterX() - 5);
                     stackPane.setLayoutY(circ.getCenterY() - 10);
                     sp.getChildren().add(stackPane);
@@ -81,5 +73,20 @@ public class PathCreation {
         });
         return scene;
     }
+
+    public static void circleColors(List<StackPane> points) {
+        for(int i = 0; i < waypointCircles.size(); i++) {
+            double scalar = 1.0/waypointCircles.size();
+            Circle c = (Circle) waypointCircles.get(i).getChildren().get(0);
+            c.setFill(new Color(i*scalar, 1-(i*scalar), 0, 1));
+        }
+    }
     
+    public static List<Point3> getWaypoints() {
+        return waypoints;
+    }
+    public static List<StackPane> getCircles() {
+        return waypointCircles;
+    }
+
 }

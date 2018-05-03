@@ -4,10 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import util.Point3;
 
@@ -25,6 +25,28 @@ public class SimulationScene {
         //Draw waypoints from PathCreation
         PathCreation.circleColors(PathCreation.getCircles());
         sp.getChildren().addAll(PathCreation.getCircles());
+
+        VBox vb_input = new VBox();
+
+        VBox vb_wheelDist = new VBox();
+        TextField txtf_wheelDist = new TextField();
+        Label lbl_wheelDist = new Label("Robot Wheel Distance");
+        vb_wheelDist.getChildren().addAll(lbl_wheelDist, txtf_wheelDist);
+        VBox vb_robotMassKg = new VBox();
+        TextField txtf_robotMassKg = new TextField();
+        Label lbl_robotMassKg = new Label("Robot Mass Kg");
+        vb_robotMassKg.getChildren().addAll(lbl_robotMassKg, txtf_robotMassKg);
+        Button btn_simulateRobot = new Button("Simulate Robot Path");
+        btn_simulateRobot.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
+
+        vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, btn_simulateRobot);
+
+        sp.getChildren().add(vb_input);
 
         Scene scene = new Scene(sp, 500, 500);
         return scene;

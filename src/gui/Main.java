@@ -14,7 +14,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage ps) {
-        this.primaryStage = ps;
+        primaryStage = ps;
         primaryStage.setTitle("Pure Pursuit SimGen");
         primaryStage.setScene(MainMenu.getScene());
         primaryStage.show();

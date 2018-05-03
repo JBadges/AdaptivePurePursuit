@@ -13,10 +13,12 @@ import util.Point3;
 
 public class SimulationScene {
 
-    public static Scene getScreen() {
+    public static Scene getScene() {
         Pane sp = new Pane();
+
         
-        Scene scene = new Scene(sp, 500,500);
+
+        Scene scene = new Scene(sp, 500, 500);
         return scene;
     }
     

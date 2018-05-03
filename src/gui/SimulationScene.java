@@ -40,7 +40,20 @@ public class SimulationScene {
         btn_simulateRobot.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
+                //Check user input and show if invalid
+                boolean isValidInput = true;
+                if (!txtf_wheelDist.getText().matches("-?\\d+(\\.\\d+)?")) {
+                    txtf_wheelDist.setText("Must be numeric");
+                    isValidInput = false;
+                }
+                if (!txtf_robotMassKg.getText().matches("-?\\d+(\\.\\d+)?")) {
+                    txtf_robotMassKg.setText("Must be numeric");
+                    isValidInput = false;
+                }
+                //Input is valid - Commence robot simulation
+                if (isValidInput) {
+
+                }
             }
         });
 

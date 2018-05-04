@@ -64,7 +64,7 @@ public class PathCreation {
                     circleColors(waypointCircles);
 
                     stackPane.setLayoutX(circ.getCenterX() - 5);
-                    stackPane.setLayoutY(circ.getCenterY() - 10);
+                    stackPane.setLayoutY(circ.getCenterY() - 5);
                     sp.getChildren().add(stackPane);
                 }
             }

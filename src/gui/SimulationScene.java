@@ -1,5 +1,7 @@
 package gui;
 
+import com.sun.javafx.geom.Line2D;
+
 import control.PathSegment;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import util.Point3;
@@ -18,10 +21,14 @@ import util.Point3;
 public class SimulationScene {
 
     //Time seconds
-    private static double currentTime = 0.0;
+    private static double currentTime;
     private static double lastUpdate;
+    private static boolean hasStarted;
 
     public static Scene getScene() {
+        hasStarted = false;
+        currentTime = 0.0;
+
         Pane sp = new Pane();
         
         //Draw Lines between points before the waypoints so they are beneath
@@ -34,8 +41,8 @@ public class SimulationScene {
         PathCreation.circleColors(PathCreation.getCircles());
         sp.getChildren().addAll(PathCreation.getCircles());
 
+        //Input
         VBox vb_input = new VBox();
-
         VBox vb_wheelDist = new VBox();
         TextField txtf_wheelDist = new TextField();
         Label lbl_wheelDist = new Label("Robot Wheel Distance");
@@ -61,7 +68,11 @@ public class SimulationScene {
                 
                 //Input is valid - Commence robot simulation
                 if (isValidInput) {
-                    final Rectangle robotRect = new Rectangle(-100, -100, 25, 25);
+                    if(hasStarted) {
+                        Main.changeScene(PathCreation.getScene());
+                    } else {
+                        btn_simulateRobot.setText("Start a new path");
+                    }
                     class SkidDriveRobot {
                         public Point3 position;
                         //In m/s
@@ -71,7 +82,7 @@ public class SimulationScene {
                         //In Kg
                         public double mass;
                         //In m
-                        public double wheelDistance;
+                        public double robotWheelDistance;
 
                         public void updateLeftAcceleration(double voltage) {
                             
@@ -82,22 +93,26 @@ public class SimulationScene {
                         }
 
                         public void updatePos(double dt) {
-                            
+
                         }
                     }
-
                     //Robot information setup
                     SkidDriveRobot robot = new SkidDriveRobot();
-                    robot.wheelDistance = Double.parseDouble(txtf_wheelDist.getText());
+                    robot.robotWheelDistance = Double.parseDouble(txtf_wheelDist.getText());
                     robot.mass = Double.parseDouble(txtf_robotMassKg.getText());
                     Point3 starting = PathCreation.getWaypoints().get(0);
                     Point3 second = PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
                     robot.position = new Point3(starting.getX(), starting.getY(), Math.atan(startToSecond.getSlope()));
 
+                    //Robot design setup
+                    final Circle robotDebugBase = new Circle(-100, -100, 10);
+                    final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.position.getTheta()), 5*Math.sin(robot.position.getTheta()));
+
                     AnimationTimer loop = new AnimationTimer(){
                         @Override
                         public void handle(long now) {
+                            hasStarted = true;
                             if(currentTime > 15) {
                                 this.stop();
                             }
@@ -112,17 +127,24 @@ public class SimulationScene {
                             robot.updatePos(dt);
                             currentTime += dt;
 
-                            robotRect.setX(robot.position.getX()-25/2.0);
-                            robotRect.setY(robot.position.getY()-25/2.0);
-                            
-                            robotRect.setFill(new Color(0, 1, 0, 0.3));
-                            robotRect.setRotate(Math.toDegrees(robot.position.getTheta()));
+                            //Update display
+                            robotDebugBase.setCenterX(robot.position.getX());
+                            robotDebugBase.setCenterY(robot.position.getY());
+                            robotHeadingLine.setStartX(robotDebugBase.getCenterX());
+                            robotHeadingLine.setStartY(robotDebugBase.getCenterY());
+                            robotHeadingLine.setEndX(robotHeadingLine.getStartX() + robotDebugBase.getRadius()*Math.cos(robot.position.getTheta()));
+                            robotHeadingLine.setEndY(robotHeadingLine.getStartY() + robotDebugBase.getRadius()*Math.sin(robot.position.getTheta()));
+                            robotDebugBase.setFill(new Color(0, 1, 0, 0.3));
+                            robotDebugBase.setRotate(Math.toDegrees(robot.position.getTheta()));
+                            robotHeadingLine.setFill(new Color(1,1,1,1));
 
+                            //Delay 10ms
                             try {
-								Thread.sleep(5);
+								Thread.sleep(10);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
                             }
+                            //To calculate change in time
                             lastUpdate = now;
                         }
                     };
@@ -130,7 +152,7 @@ public class SimulationScene {
                     lastUpdate = System.nanoTime();
                     loop.start();
 
-                    sp.getChildren().add(robotRect);
+                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine);
                 }
             }
         });

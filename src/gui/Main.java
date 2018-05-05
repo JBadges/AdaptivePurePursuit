@@ -6,6 +6,12 @@ import javafx.stage.Stage;
  
 public class Main extends Application {
 
+    enum Scenes {
+        MainMenu,
+        PathCreation,
+        SimulationScreen
+    }
+
     private static Stage primaryStage;
 
     public static void main(String[] args) {
@@ -16,11 +22,21 @@ public class Main extends Application {
     public void start(Stage ps) {
         primaryStage = ps;
         primaryStage.setTitle("Pure Pursuit SimGen");
-        primaryStage.setScene(MainMenu.getScene());
+        changeScene(Scenes.MainMenu);
         primaryStage.show();
     }
 
-    public static void changeScene(Scene scene) {
-        primaryStage.setScene(scene);
+    public static void changeScene(Scenes scene) {
+        switch(scene) {
+            case MainMenu:
+                primaryStage.setScene(MainMenu.getScene());
+                break;
+            case PathCreation:
+                primaryStage.setScene(PathCreation.getScene());
+                break;
+            case SimulationScreen:
+                primaryStage.setScene(SimulationScene.getScene());
+                break;
+        }
     }
 }

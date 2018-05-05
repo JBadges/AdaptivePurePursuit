@@ -1,8 +1,7 @@
 package gui;
 
-import com.sun.javafx.geom.Line2D;
-
 import control.PathSegment;
+import gui.Main.Scenes;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import util.Point3;
 
 public class SimulationScene {
@@ -69,7 +67,7 @@ public class SimulationScene {
                 //Input is valid - Commence robot simulation
                 if (isValidInput) {
                     if(hasStarted) {
-                        Main.changeScene(PathCreation.getScene());
+                        Main.changeScene(Scenes.PathCreation);
                     } else {
                         btn_simulateRobot.setText("Start a new path");
                     }
@@ -84,12 +82,14 @@ public class SimulationScene {
                         //In m
                         public double robotWheelDistance;
 
-                        public void updateLeftAcceleration(double voltage) {
-                            
+                        public void updateLeftVelocity(double voltage) {
+                            double acceleration = 0;
+                            leftVelocity += acceleration;
                         }
 
-                        public void updateRightAcceleration(double voltage) {
-                            
+                        public void updateRightVelcoty(double voltage) {
+                            double acceleration = 0;
+                            rightVelocity += acceleration;
                         }
 
                         public void updatePos(double dt) {
@@ -100,8 +100,8 @@ public class SimulationScene {
                     SkidDriveRobot robot = new SkidDriveRobot();
                     robot.robotWheelDistance = Double.parseDouble(txtf_wheelDist.getText());
                     robot.mass = Double.parseDouble(txtf_robotMassKg.getText());
-                    Point3 starting = PathCreation.getWaypoints().get(0);
-                    Point3 second = PathCreation.getWaypoints().get(1);
+                    Point3 starting = PathCreation.getWaypoints().size() < 1 ? new Point3(0,0) : PathCreation.getWaypoints().get(0);
+                    Point3 second = PathCreation.getWaypoints().size() < 2 ? new Point3(0,0) : PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
                     robot.position = new Point3(starting.getX(), starting.getY(), Math.atan(startToSecond.getSlope()));
 
@@ -121,8 +121,8 @@ public class SimulationScene {
                             double voltageLeft = 0;
                             double voltageRight = 0;
 
-                            robot.updateLeftAcceleration(voltageLeft);
-                            robot.updateRightAcceleration(voltageRight);
+                            robot.updateLeftVelocity(voltageLeft);
+                            robot.updateRightVelcoty(voltageRight);
 
                             robot.updatePos(dt);
                             currentTime += dt;
@@ -161,7 +161,7 @@ public class SimulationScene {
 
         sp.getChildren().add(vb_input);
 
-        Scene scene = new Scene(sp, 500, 500);
+        Scene scene = new Scene(sp, 800, 600);
         return scene;
     }
     

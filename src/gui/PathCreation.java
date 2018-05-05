@@ -78,57 +78,6 @@ public class PathCreation {
         return scene;
     }
 
-    // public static Scene getScene() {
-    //     waypoints = new ArrayList<>();
-    //     waypointCircles = new ArrayList<>();
-    //     Pane sp = new Pane();
-    //     Button finishPath = new Button();
-    //     finishPath.setText("Finish Path");
-    //     finishPath.setPrefWidth(150);
-    //     finishPath.setPrefHeight(20);
-    //     finishPath.setLayoutX(250 - 150/2.0);
-    //     finishPath.setLayoutY(20);
-    //     finishPath.setOnAction(new EventHandler<ActionEvent>() {
-    //         @Override
-    //         public void handle(ActionEvent event) {
-    //             if(waypoints.size() >= 2)  {
-    //                 Main.changeScene(Scenes.SimulationScreen); 
-    //             }
-    //         }
-    //     });
-    //     sp.getChildren().add(finishPath);
-    //     Scene scene = new Scene(sp, 800, 600);
-    //     scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-    //         @Override
-    //         public void handle(MouseEvent mouseEvent) {
-    //             if(!(
-    //                 (mouseEvent.getX() > finishPath.getLayoutX()-2 && mouseEvent.getX() < finishPath.getLayoutX() + 150 + 2) &&
-    //                 (mouseEvent.getY() > 20-2 && mouseEvent.getY() < finishPath.getLayoutY() + 20 + 2))
-    //                 ) {
-    //                 StackPane stackPane = new StackPane();
-
-    //                 Circle circ = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
-    //                 waypoints.add(new Point3(mouseEvent.getX(), mouseEvent.getY()));
-
-    //                 Label circleLabel = new Label(""+waypointCircles.size());
-    //                 circleLabel.setTextAlignment(TextAlignment.CENTER);
-    //                 circ.radiusProperty().bind(circleLabel.widthProperty());
-
-    //                 stackPane.getChildren().addAll(circ, circleLabel);
-    //                 waypointCircles.add(stackPane);
-                    
-    //                 //Changing the color based on number of waypoints
-    //                 circleColors(waypointCircles);
-
-    //                 stackPane.setLayoutX(circ.getCenterX() - 5);
-    //                 stackPane.setLayoutY(circ.getCenterY() - 5);
-    //                 sp.getChildren().add(stackPane);
-    //             }
-    //         }
-    //     });
-    //     return scene;
-    // }
-
     public static void circleColors(List<StackPane> points) {
         for(int i = 0; i < waypointCircles.size(); i++) {
             double scalar = 1.0/waypointCircles.size();

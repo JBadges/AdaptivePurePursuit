@@ -1,5 +1,10 @@
 package gui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import gui.Main.Scenes;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,6 +59,19 @@ public class MainMenu {
             public void handle(ActionEvent event) {
                 Main.changeScene(Scenes.PathCreation);
             }
+        });
+
+        btn_github.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/JBadges/AdaptivePurePursuit"));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+                }
         });
 
         btn_exit.setOnAction(new EventHandler<ActionEvent>() {

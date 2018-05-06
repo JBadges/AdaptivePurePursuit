@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import util.Point2;
 import util.Point3;
 
 public class SimulationScene {
@@ -31,8 +32,8 @@ public class SimulationScene {
         
         //Draw Lines between points before the waypoints so they are beneath
         for(int i = 0; i < PathCreation.getWaypoints().size()-1; i++) {
-            Point3 a = PathCreation.getWaypoints().get(i);
-            Point3 b = PathCreation.getWaypoints().get(i+1);
+            Point2 a = PathCreation.getWaypoints().get(i);
+            Point2 b = PathCreation.getWaypoints().get(i+1);
             sp.getChildren().add(new Line(a.getX(), a.getY(), b.getX(), b.getY()));
         }
         //Draw waypoints from PathCreation
@@ -100,8 +101,8 @@ public class SimulationScene {
                     SkidDriveRobot robot = new SkidDriveRobot();
                     robot.robotWheelDistance = Double.parseDouble(txtf_wheelDist.getText());
                     robot.mass = Double.parseDouble(txtf_robotMassKg.getText());
-                    Point3 starting = PathCreation.getWaypoints().size() < 1 ? new Point3(0,0) : PathCreation.getWaypoints().get(0);
-                    Point3 second = PathCreation.getWaypoints().size() < 2 ? new Point3(0,0) : PathCreation.getWaypoints().get(1);
+                    Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0,0) : PathCreation.getWaypoints().get(0);
+                    Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0,0) : PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
                     robot.position = new Point3(starting.getX(), starting.getY(), Math.atan(startToSecond.getSlope()));
 

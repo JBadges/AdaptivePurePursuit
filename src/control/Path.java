@@ -2,13 +2,15 @@ package control;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import util.Point2;
 import util.Point3;
 
 public class Path {
 
     private List<PathSegment> segments;
 
-    public Path(Point3... waypoints) {
+    public Path(Point2... waypoints) {
         if(waypoints.length < 2) {
             throw new Error("Must have at least 2 waypoints to create a path");
         }

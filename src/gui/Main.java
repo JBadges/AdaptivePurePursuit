@@ -38,4 +38,8 @@ public class Main extends Application {
                 break;
         }
     }
+
+    public static Stage getStage() {
+        return primaryStage;
+    }
 }

@@ -15,17 +15,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import util.Point2;
 import util.Point3;
 
 public class PathCreation {
 
-    private static List<Point3> waypoints;
-    private static List<StackPane> waypointCircles;
+    private static List<Point2> waypoints = new ArrayList<>();
+    private static List<StackPane> waypointCircles = new ArrayList<>();
 
     public static Scene getScene() {
         //Initialize
-        waypoints = new ArrayList<>();
-        waypointCircles = new ArrayList<>();
+        waypoints.clear();
+        waypointCircles.clear();
 
         Pane pane = new Pane();
 
@@ -86,7 +87,7 @@ public class PathCreation {
         }
     }
     
-    public static List<Point3> getWaypoints() {
+    public static List<Point2> getWaypoints() {
         return waypoints;
     }
     public static List<StackPane> getCircles() {

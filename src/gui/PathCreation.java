@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import util.Point2;
 import util.Point3;
 
@@ -59,7 +60,7 @@ public class PathCreation implements GUI {
         btn_finishPath.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(waypoints.size() >= 2) {
+                if (waypoints.size() >= 2) {
                     Main.changeScene(Scenes.SimulateRobot);
                 }
             }
@@ -69,29 +70,37 @@ public class PathCreation implements GUI {
         btn_savePath.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FileChooser chooser = new FileChooser();
-                chooser.setTitle("Choose location To Save Path");
-                File selectedFile = chooser.showSaveDialog(null);
-                Gson gson = new Gson();
-                JSONWaypoints javaObjectToJson = new JSONWaypoints();
-                javaObjectToJson.waypoints.clear();
-                javaObjectToJson.waypoints.addAll(waypoints);
-                String strJson = gson.toJson(javaObjectToJson);
-                FileWriter writer = null;
-                try {
-                    writer = new FileWriter(selectedFile);
-                    writer.write(strJson);
-                  } catch (IOException e) {
-                    e.printStackTrace();
-                  } finally {
-                    if (writer != null) {
-                     try {
-                      writer.close();
-                     } catch (IOException e) {
-                      e.printStackTrace();
-                     }
+                if (waypoints.size() >= 2) {
+                    FileChooser chooser = new FileChooser();
+                    chooser.setTitle("Choose location To Save Path");
+                    chooser.setInitialFileName("Path.json");
+                    ExtensionFilter jsonExtFilter = new ExtensionFilter("JSON files (*.json)", "*.json");
+                    ExtensionFilter allExtFilter = new ExtensionFilter("All files (*.)", "*.");
+                    chooser.getExtensionFilters().addAll(jsonExtFilter, allExtFilter);
+                    File selectedFile = chooser.showSaveDialog(null);
+                    Gson gson = new Gson();
+                    JSONWaypoints javaObjectToJson = new JSONWaypoints();
+                    javaObjectToJson.waypoints.clear();
+                    javaObjectToJson.waypoints.addAll(waypoints);
+                    String strJson = gson.toJson(javaObjectToJson);
+                    FileWriter writer = null;
+                    try {
+                        writer = new FileWriter(selectedFile);
+                        writer.write(strJson);
+                    } catch (NullPointerException e)  {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (writer != null) {
+                            try {
+                                writer.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                  }
+                }
             }
         });
 

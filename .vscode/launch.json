@@ -6,13 +6,13 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)-Main<PPSuit>",
+            "name": "Debug (Launch)-Main<PurePursuitRefactored>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopOnEntry": false,
             "mainClass": "gui.Main",
-            "projectName": "PPSuit",
+            "projectName": "PurePursuitRefactored",
             "args": ""
         },
         {

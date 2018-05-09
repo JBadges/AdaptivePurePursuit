@@ -35,7 +35,7 @@ import javafx.stage.FileChooser;
 import util.Point2;
 import util.Point3;
 
-public class MainMenu {
+public class MainMenu implements GUI {
 
     public static Scene getScene() {
         StackPane p = new StackPane();
@@ -122,7 +122,7 @@ public class MainMenu {
                         stackPane.setLayoutX(circ.getCenterX() - 5);
                         stackPane.setLayoutY(circ.getCenterY() - 5);
                     }
-                    Main.changeScene(Scenes.SimulationScreen);
+                    Main.changeScene(Scenes.SimulateRobot);
                 }
             }
         }); 

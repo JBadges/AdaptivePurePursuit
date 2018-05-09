@@ -8,7 +8,7 @@ public class Main extends Application {
     enum Scenes {
         MainMenu,
         PathCreation,
-        SimulationScreen
+        SimulateRobot
     }
 
     private static Stage primaryStage;
@@ -33,8 +33,8 @@ public class Main extends Application {
             case PathCreation:
                 primaryStage.setScene(PathCreation.getScene());
                 break;
-            case SimulationScreen:
-                primaryStage.setScene(SimulationScene.getScene());
+            case SimulateRobot:
+                primaryStage.setScene(SimulateRobot.getScene());
                 break;
         }
     }

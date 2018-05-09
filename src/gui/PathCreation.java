@@ -1,7 +1,13 @@
 package gui;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 
 import gui.Main.Scenes;
 import javafx.event.ActionEvent;
@@ -15,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import util.Point2;
 import util.Point3;
 
@@ -35,8 +42,18 @@ public class PathCreation {
         btn_finishPath.setStyle("-fx-font: 24 sans-serif;");
         btn_finishPath.setPrefWidth(200);
         btn_finishPath.setLayoutY(20);
-        btn_finishPath.setLayoutX(400 - btn_finishPath.getPrefWidth()/2.0);
+        btn_finishPath.setPrefHeight(50);
+        btn_finishPath.setLayoutX(400 - btn_finishPath.getPrefWidth() - 10);
         pane.getChildren().add(btn_finishPath);
+
+        //Save Path Button
+        Button btn_savePath = new Button("Save Path");
+        btn_savePath.setStyle("-fx-font: 24 sans-serif;");
+        btn_savePath.setPrefWidth(200);
+        btn_savePath.setLayoutY(20);
+        btn_savePath.setPrefHeight(50);
+        btn_savePath.setLayoutX(400 + 10);
+        pane.getChildren().add(btn_savePath);
 
         //Button Functionality
         btn_finishPath.setOnAction(new EventHandler<ActionEvent>() {
@@ -48,18 +65,48 @@ public class PathCreation {
             }
         });
 
+        //Button Functionality
+        btn_savePath.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser chooser = new FileChooser();
+                chooser.setTitle("Choose location To Save Path");
+                File selectedFile = chooser.showSaveDialog(null);
+                Gson gson = new Gson();
+                JSONWaypoints javaObjectToJson = new JSONWaypoints();
+                javaObjectToJson.waypoints.clear();
+                javaObjectToJson.waypoints.addAll(waypoints);
+                String strJson = gson.toJson(javaObjectToJson);
+                FileWriter writer = null;
+                try {
+                    writer = new FileWriter(selectedFile);
+                    writer.write(strJson);
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  } finally {
+                    if (writer != null) {
+                     try {
+                      writer.close();
+                     } catch (IOException e) {
+                      e.printStackTrace();
+                     }
+                    }
+                  }
+            }
+        });
+
         Scene scene = new Scene(pane, 800, 600);
         //Screen waypoint clicking
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if(!btn_finishPath.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
+                if(mouseEvent.getY() > 70) {
                     StackPane stackPane = new StackPane();
 
                     Circle circ = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
                     waypoints.add(new Point3(mouseEvent.getX(), mouseEvent.getY()));
 
-                    Label circleLabel = new Label(""+waypointCircles.size());
+                    Label circleLabel = new Label("" + waypointCircles.size());
                     circleLabel.setTextAlignment(TextAlignment.CENTER);
                     circ.radiusProperty().bind(circleLabel.widthProperty());
 

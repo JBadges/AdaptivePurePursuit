@@ -17,7 +17,7 @@ import javafx.scene.shape.Line;
 import util.Point2;
 import util.Point3;
 
-public class SimulationScene {
+public class SimulateRobot implements GUI {
 
     //Time seconds
     private static double currentTime;

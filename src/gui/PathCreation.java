@@ -18,7 +18,7 @@ import javafx.scene.text.TextAlignment;
 import util.Point2;
 import util.Point3;
 
-public class PathCreation {
+public class PathCreation implements GUI {
 
     private static List<Point2> waypoints = new ArrayList<>();
     private static List<StackPane> waypointCircles = new ArrayList<>();
@@ -43,7 +43,7 @@ public class PathCreation {
             @Override
             public void handle(ActionEvent event) {
                 if(waypoints.size() >= 2) {
-                    Main.changeScene(Scenes.SimulationScreen);
+                    Main.changeScene(Scenes.SimulateRobot);
                 }
             }
         });

@@ -1,12 +1,8 @@
 package util;
 
-public class Point3 {
+public class Point3 extends Point2 {
 
-    private double x;
-    private double y;
-    /**
-     * In radians
-     */
+    /** In radians */
     private double theta;
 
     public Point3(double x, double y) {
@@ -14,8 +10,7 @@ public class Point3 {
     }
 
     public Point3(double x, double y, double theta) {
-        this.x = x;
-        this.y = y;
+        super(x,y);
         this.theta = theta;
     }
 
@@ -24,36 +19,12 @@ public class Point3 {
         while (theta <= Math.PI*2) theta += Math.PI * 2;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-    
-    public void setY(double y) {
-        this.y = y;
+    public double getTheta() {
+        return theta;
     }
 
     public void setTheta(double theta) {
         this.theta = theta;
     }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getTheta() {
-        return theta;
-    }
-
-    public static double dot(Point3 a, Point3 b) {
-        return a.getX() * b.getX() + a.getY() * b.getY();
-    }
-
-    public static double cross(Point3 a, Point3 b) {
-        return a.getX() * b.getY() - a.getY() * b.getX();
-    }
-
+    
 }

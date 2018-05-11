@@ -48,4 +48,41 @@ public class PathSegment {
     public Point2 getEnd() {
         return this.end;
     }
+    
+	public double getSlope() {
+    	return (this.end.getY()-this.start.getY())/(this.end.getX()-this.start.getX());
+	}
+
+	public double getYInt() {
+    	return start.getY() - getSlope() * start.getX();
+	}
+	
+	public double getLength() {
+		return start.distanceTo(end);
+	}
+    
+	public Point3 intersection(PathSegment line) {
+    	double x = (line.getYInt() - this.getYInt()) / (this.getSlope() - line.getSlope());
+	    double y = this.getSlope() * x + this.getYInt();
+	    return new Point3(x, y, 0);
+	}
+    
+	public boolean isPointContained(Point3 point) {
+		double crossProduct = (point.getY() - start.getY()) * (end.getX() - start.getX()) - (point.getX() - start.getX()) * (end.getY() - start.getY());
+		if (Math.abs(crossProduct) > 1e-5) {
+			return false;
+		}
+
+		double dotProduct = (point.getX() - start.getX()) * (end.getX() - start.getX()) + (point.getY() - start.getY()) * (end.getY() - start.getY());
+		if (dotProduct < 0) {
+			return false;
+		}
+
+		double squaredLengthBA = (end.getX() - start.getX()) * (end.getX() - start.getX()) + (end.getY() - start.getY()) * (end.getY() - start.getY());
+		if (dotProduct > squaredLengthBA) {
+			return false;
+		}
+
+		return true;
+	}
 }

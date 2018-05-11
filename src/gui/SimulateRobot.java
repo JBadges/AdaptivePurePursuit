@@ -23,14 +23,12 @@ public class SimulateRobot implements GUI {
     //Time seconds
     private static double currentTime;
     private static double lastUpdate;
-    private static boolean hasStarted;
     private static AnimationTimer loop;
 
     public static Scene getScene() {
         currentTime = 0;
         lastUpdate = 0;
         loop = null;
-        hasStarted = false;
         currentTime = 0.0;
 
         Pane sp = new Pane();
@@ -83,7 +81,6 @@ public class SimulateRobot implements GUI {
                     Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0,0) : PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
                     robot.position = new Point3(starting.getX(), starting.getY(), Math.atan(startToSecond.getSlope()));
-
                     //Robot design setup
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.position.getTheta()), 5*Math.sin(robot.position.getTheta()));
@@ -91,10 +88,8 @@ public class SimulateRobot implements GUI {
                     loop = new AnimationTimer(){
                         @Override
                         public void handle(long now) {
-                            hasStarted = true;
                             btn_simulateRobot.setText("Start a new path");
                             if(currentTime > 15) {
-                                hasStarted = false;
                                 this.stop();
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;

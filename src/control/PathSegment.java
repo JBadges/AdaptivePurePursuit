@@ -17,25 +17,21 @@ public class PathSegment {
         this.start = start;
         this.end = end;
     }
-    
-    public double getSlope() {
-        return (end.getY() - start.getY()) / (end.getX() - start.getX());
-    }
 
     public boolean isPointContained(Point2 point) {
         double crossProduct = (point.getY() - start.getY()) * (end.getX() - start.getX()) - (point.getX() - start.getX()) * (end.getY() - start.getY());
         if (Math.abs(crossProduct) > 1e-5) {
-        return false;
+            return false;
         }
 
         double dotProduct = (point.getX() - start.getX()) * (end.getX() - start.getX()) + (point.getY() - start.getY()) * (end.getY() - start.getY());
         if (dotProduct < 0) {
-        return false;
+            return false;
         }
 
         double squaredLengthBA = (end.getX() - start.getX()) * (end.getX() - start.getX()) + (end.getY() - start.getY()) * (end.getY() - start.getY());
         if (dotProduct > squaredLengthBA) {
-        return false;
+            return false;
         }
 
         return true;

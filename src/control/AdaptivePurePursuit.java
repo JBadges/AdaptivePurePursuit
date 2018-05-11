@@ -17,7 +17,7 @@ public class AdaptivePurePursuit {
     	double curX = pose.getX();
     	double curY = pose.getY();
     	
-        Point3 goalPoint = getGoalPoint(path, pose, lookahead);
+        Point3 goalPoint = getGoalPoint(pose, lookahead);
         double mMirror = (curX-goalPoint.getX())/(goalPoint.getY()-curY);
         double midX = (curX+goalPoint.getX())/2;
         double midY = (curY+goalPoint.getY())/2;
@@ -38,11 +38,11 @@ public class AdaptivePurePursuit {
         return new SpeedPoint(velocity, omega);
     }
     
-    public Point3 getGoalPoint(Path aPath, Point3 position, double lookahead) {
+    public Point3 getGoalPoint(Point3 position, double lookahead) {
         Point3 minPoint = null;
 
-        for(int i=aPath.segments.getSize()-1; i>=0; i--) {
-            PathSegment curSegment = aPath.segments.get(i);
+        for(int i=path.segments.getSize()-1; i>=0; i--) {
+            PathSegment curSegment = path.segments.get(i);
 
             double relStartX = curSegment.getStart().getX() - position.getX();
             double relStartY = curSegment.getStart().getY() - position.getY();

@@ -44,12 +44,12 @@ public class Path {
             } else if (discrim>0) {
                 double x1 = (D*dY+(dY<0?-1:1)*dX*Math.sqrt(discrim))/(dR*dR)+position.getX();
                 double y1 = (-1*D*dX+Math.abs(dY)*Math.sqrt(discrim))/(dR*dR)+position.getY();
-                double distEnd1 = Math.sqrt(Math.pow(curSegment.getEnd().getX()-x1, 2)+Math.pow(pathSegment.getEnd().getY()-y1,2));
+                double distEnd1 = Math.sqrt(Math.pow(curSegment.getEnd().getX()-x1, 2)+Math.pow(curSegment.getEnd().getY()-y1,2));
                 boolean oneContained = curSegment.isPointContained(new Point3(x1,y1,0));
 
                 double x2 = (D*dY-(dY<0?-1:1)*dX*Math.sqrt(discrim))/(dR*dR)+position.getX();
                 double y2 = (-1*D*dX-Math.abs(dY)*Math.sqrt(discrim))/(dR*dR)+position.getY();
-                double distEnd2 = Math.sqrt(Math.pow(curSegment.getEnd().getX()-x2, 2)+Math.pow(pathSegment.getEnd().getY()-y2,2));
+                double distEnd2 = Math.sqrt(Math.pow(curSegment.getEnd().getX()-x2, 2)+Math.pow(curSegment.getEnd().getY()-y2,2));
                 boolean twoContained = curSegment.isPointContained(new Point3(x2,y2,0));
 
                 if(oneContained&&twoContained) {
@@ -63,8 +63,6 @@ public class Path {
                 } else if (twoContained) {
                     minPoint = new Point3(x2,y2,Math.atan(curSegment.getSlope()));
                 }
-            } else {
-                continue;
             }
         }
         

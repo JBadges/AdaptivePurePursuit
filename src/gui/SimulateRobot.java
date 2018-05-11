@@ -1,6 +1,7 @@
 package gui;
 
 import control.PathSegment;
+import control.SkidRobot;
 import gui.Main.Scenes;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -23,8 +24,12 @@ public class SimulateRobot implements GUI {
     private static double currentTime;
     private static double lastUpdate;
     private static boolean hasStarted;
+    private static AnimationTimer loop;
 
     public static Scene getScene() {
+        currentTime = 0;
+        lastUpdate = 0;
+        loop = null;
         hasStarted = false;
         currentTime = 0.0;
 
@@ -54,6 +59,10 @@ public class SimulateRobot implements GUI {
         btn_simulateRobot.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if(btn_simulateRobot.getText().equals("Start a new path")) {
+                    loop.stop();
+                    Main.changeScene(Scenes.PathCreation);
+                }
                 //Check user input and show if invalid
                 boolean isValidInput = true;
                 if (!txtf_wheelDist.getText().matches("-?\\d+(\\.\\d+)?")) {
@@ -64,41 +73,10 @@ public class SimulateRobot implements GUI {
                     txtf_robotMassKg.setText("Must be numeric");
                     isValidInput = false;
                 }
-                
                 //Input is valid - Commence robot simulation
                 if (isValidInput) {
-                    if(hasStarted) {
-                        Main.changeScene(Scenes.PathCreation);
-                    } else {
-                        btn_simulateRobot.setText("Start a new path");
-                    }
-                    class SkidDriveRobot {
-                        public Point3 position;
-                        //In m/s
-                        public double leftVelocity;
-                        public double rightVelocity;
-
-                        //In Kg
-                        public double mass;
-                        //In m
-                        public double robotWheelDistance;
-
-                        public void updateLeftVelocity(double voltage) {
-                            double acceleration = 0;
-                            leftVelocity += acceleration;
-                        }
-
-                        public void updateRightVelcoty(double voltage) {
-                            double acceleration = 0;
-                            rightVelocity += acceleration;
-                        }
-
-                        public void updatePos(double dt) {
-
-                        }
-                    }
                     //Robot information setup
-                    SkidDriveRobot robot = new SkidDriveRobot();
+                    SkidRobot robot = new SkidRobot();
                     robot.robotWheelDistance = Double.parseDouble(txtf_wheelDist.getText());
                     robot.mass = Double.parseDouble(txtf_robotMassKg.getText());
                     Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0,0) : PathCreation.getWaypoints().get(0);
@@ -110,22 +88,24 @@ public class SimulateRobot implements GUI {
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.position.getTheta()), 5*Math.sin(robot.position.getTheta()));
 
-                    AnimationTimer loop = new AnimationTimer(){
+                    loop = new AnimationTimer(){
                         @Override
                         public void handle(long now) {
                             hasStarted = true;
+                            btn_simulateRobot.setText("Start a new path");
                             if(currentTime > 15) {
+                                hasStarted = false;
                                 this.stop();
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;
                             //TODO: get voltage for left and right sides based on robot position and goal position
-                            double voltageLeft = 0;
-                            double voltageRight = 0;
-
-                            robot.updateLeftVelocity(voltageLeft);
-                            robot.updateRightVelcoty(voltageRight);
+                            double voltageLeft = 12;
+                            double voltageRight = 12;                            
 
                             robot.updatePos(dt);
+                            robot.updateLeftVelocity(dt, voltageLeft);
+                            robot.updateRightVelcoty(dt, voltageRight);
+
                             currentTime += dt;
 
                             //Update display

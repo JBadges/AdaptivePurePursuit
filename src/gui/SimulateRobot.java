@@ -29,7 +29,6 @@ public class SimulateRobot implements GUI {
         currentTime = 0;
         lastUpdate = 0;
         loop = null;
-        currentTime = 0.0;
 
         Pane sp = new Pane();
         
@@ -97,9 +96,7 @@ public class SimulateRobot implements GUI {
                             double voltageLeft = 12;
                             double voltageRight = 12;                            
 
-                            robot.updatePos(dt);
-                            robot.updateLeftVelocity(dt, voltageLeft);
-                            robot.updateRightVelcoty(dt, voltageRight);
+                            robot.updatePos(dt, voltageLeft, voltageRight);
 
                             currentTime += dt;
 

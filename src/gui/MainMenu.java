@@ -33,7 +33,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import util.Point2;
-import util.Point3;
 
 public class MainMenu implements GUI {
 

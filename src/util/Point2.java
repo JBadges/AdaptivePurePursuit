@@ -32,7 +32,7 @@ public class Point2 {
     }
 
     public double distanceTo(Point2 point) {
-        return Math.sqrt((point.getX() - this.getX()) * (point.getX() - this.getX()) + (point.getY() - this.getY()) * (point.getY() - this.getY()))
+        return Math.sqrt((point.getX() - this.getX()) * (point.getX() - this.getX()) + (point.getY() - this.getY()) * (point.getY() - this.getY()));
     }
 
     public static double dot(Point3 a, Point3 b) {

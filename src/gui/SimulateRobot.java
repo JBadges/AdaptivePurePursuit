@@ -79,7 +79,7 @@ public class SimulateRobot implements GUI {
                     Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0,0) : PathCreation.getWaypoints().get(0);
                     Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0,0) : PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
-                    robot.position = new Point3(starting.getX(), starting.getY(), Math.atan(startToSecond.getSlope()));
+                    robot.position = new Point3(starting.getX(), starting.getY(), second.getX()<starting.getX()?Math.atan(startToSecond.getSlope())+Math.PI:Math.atan(startToSecond.getSlope()));
                     //Robot design setup
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.position.getTheta()), 5*Math.sin(robot.position.getTheta()));

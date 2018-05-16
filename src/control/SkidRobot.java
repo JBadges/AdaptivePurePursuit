@@ -5,40 +5,47 @@ import util.Point3;
 public class SkidRobot {
 
     // Stall Torque in N m
-    private static double stallTorque = 2.402;
+    private double stallTorque = 2.402;
     // Stall Current in Amps
-    private static double stallCurrent = 126.145;
+    private double stallCurrent = 126.145;
     // Free Speed in RPM
-    private static double freeSpeed = 5015.562;
+    private double freeSpeed = 5015.562;
     // Free Current in Amps
-    private static double freeCurrent = 1.170;
+    private double freeCurrent = 1.170;
 
     // Number of motors
-    private static double numMotors = 2.0;
+    private double numMotors = 2.0;
     // Resistance of the motor
-    private static double resistance = 12.0 / stallCurrent;
+    private double resistance = 12.0 / stallCurrent;
     // Motor velocity constant
-    private static double Kv = ((freeSpeed / 60.0 * 2.0 * Math.PI) / (12.0 - resistance * freeCurrent));
+    private double Kv = ((freeSpeed / 60.0 * 2.0 * Math.PI) / (12.0 - resistance * freeCurrent));
     // Torque constant
-    private static double Kt = (numMotors * stallTorque) / stallCurrent;
+    private double Kt = (numMotors * stallTorque) / stallCurrent;
     // Gear ratio
-    private static double kG = 10.71;
+    private double kG = 10.71;
     // Radius of pulley
-    private static double kr = 0.065786 / 2.0;
+    private double kr = 0.065786 / 2.0;
 
     private static double speedModifier = 15.0;
 
-    public Point3 position;
+    private Point3 position;
     //In m/s
-    public double leftVelocity;
-    public double rightVelocity;
+    private double leftVelocity;
+    private double rightVelocity;
 
     //In Kg
-    public double mass;
+    private double mass;
     //In m
-    public double robotWheelDistance;
+    private double robotWheelDistance;
+    private double wheelRadius;
 
-
+    public SkidRobot(double wheelDistance, double wheelRadius, double numberOfMotors, double robotMass, double speedModifier) {
+        this.robotWheelDistance = wheelDistance;
+        this.wheelRadius = wheelRadius;
+        this.numMotors = numberOfMotors;
+        this.mass = robotMass;
+        SkidRobot.speedModifier = speedModifier;
+    }
 
     public void updateLeftVelocity(double dt, double voltage) {
         double acceleration = -Kt * kG * kG / (Kv * resistance * kr * kr * mass) * leftVelocity + kG * Kt / (resistance * kr * mass) * voltage;
@@ -83,4 +90,21 @@ public class SkidRobot {
             dt -= 0.001;
         }
     }
+
+    public double getWheelRadius() {
+        return wheelRadius;
+    }
+
+    public double getWheelDistance() {
+        return robotWheelDistance;
+    }
+
+    public Point3 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point3 pose) {
+        position = pose;
+    }
+
 }

@@ -1,5 +1,6 @@
 package gui;
 
+import control.AdaptivePurePursuit;
 import control.PathSegment;
 import control.SkidRobot;
 import gui.Main.Scenes;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import util.Point2;
 import util.Point3;
+import util.SpeedPoint;
 
 public class SimulateRobot implements GUI {
 
@@ -76,42 +78,48 @@ public class SimulateRobot implements GUI {
                 //Input is valid - Commence robot simulation
                 if (isValidInput) {
                     //Robot information setup
-                    SkidRobot robot = new SkidRobot();
-                    robot.robotWheelDistance = Double.parseDouble(txtf_wheelDist.getText());
-                    robot.mass = Double.parseDouble(txtf_robotMassKg.getText());
+                    SkidRobot robot = new SkidRobot(Double.parseDouble(txtf_wheelDist.getText()), 0.1016, 3, Double.parseDouble(txtf_robotMassKg.getText()), 50);
                     Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0,0) : PathCreation.getWaypoints().get(0);
                     Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0,0) : PathCreation.getWaypoints().get(1);
                     PathSegment startToSecond = new PathSegment(starting, second);
-                    robot.position = new Point3(starting.getX(), starting.getY(), second.getX()<starting.getX()?Math.atan(startToSecond.getSlope())+Math.PI:Math.atan(startToSecond.getSlope()));
+                    robot.setPosition(new Point3(starting.getX(), starting.getY(), second.getX()<starting.getX()?Math.atan(startToSecond.getSlope())+Math.PI:Math.atan(startToSecond.getSlope())));
                     //Robot design setup
+                    final double lookahead = 100;
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
-                    final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.position.getTheta()), 5*Math.sin(robot.position.getTheta()));
-
+                    final Circle robotLookahead = new Circle(-100, -100, lookahead);
+                    final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.getPosition().getTheta()), 5*Math.sin(robot.getPosition().getTheta()));
+                    AdaptivePurePursuit app = new AdaptivePurePursuit(PathCreation.getPath(), lookahead);
                     loop = new AnimationTimer(){
                         @Override
                         public void handle(long now) {
                             btn_simulateRobot.setText("Start a new path");
-                            if(currentTime > 15 || stopLoop) {
+                            if(currentTime > 60 || stopLoop) {
                                 this.stop();
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;
-                            //TODO: get voltage for left and right sides based on robot position and goal position
-                            double voltageLeft = 12;
-                            double voltageRight = 12;                            
+                            
+                            SpeedPoint twist = app.update(robot.getPosition());
+                            double[] voltages = app.getVoltageFromTwist(twist, robot);
+                            double voltageLeft = voltages[0];
+                            double voltageRight = voltages[1];
+                            System.out.printf("Left %.6f | Right %.6f\n", voltageLeft, voltageRight);
 
                             robot.updatePos(dt, voltageLeft, voltageRight);
 
                             currentTime += dt;
 
                             //Update display
-                            robotDebugBase.setCenterX(robot.position.getX());
-                            robotDebugBase.setCenterY(robot.position.getY());
+                            robotDebugBase.setCenterX(robot.getPosition().getX());
+                            robotDebugBase.setCenterY(robot.getPosition().getY());
+                            robotLookahead.setCenterX(robot.getPosition().getX());
+                            robotLookahead.setCenterY(robot.getPosition().getY());
                             robotHeadingLine.setStartX(robotDebugBase.getCenterX());
                             robotHeadingLine.setStartY(robotDebugBase.getCenterY());
-                            robotHeadingLine.setEndX(robotHeadingLine.getStartX() + robotDebugBase.getRadius()*Math.cos(robot.position.getTheta()));
-                            robotHeadingLine.setEndY(robotHeadingLine.getStartY() + robotDebugBase.getRadius()*Math.sin(robot.position.getTheta()));
+                            robotHeadingLine.setEndX(robotHeadingLine.getStartX() + robotDebugBase.getRadius()*Math.cos(robot.getPosition().getTheta()));
+                            robotHeadingLine.setEndY(robotHeadingLine.getStartY() + robotDebugBase.getRadius()*Math.sin(robot.getPosition().getTheta()));
+                            robotLookahead.setFill(new Color(0, 1, 0.4, 0.1));
                             robotDebugBase.setFill(new Color(0, 1, 0, 0.3));
-                            robotDebugBase.setRotate(Math.toDegrees(robot.position.getTheta()));
+                            robotDebugBase.setRotate(Math.toDegrees(robot.getPosition().getTheta()));
                             robotHeadingLine.setFill(new Color(1,1,1,1));
 
                             //Delay 10ms
@@ -128,7 +136,7 @@ public class SimulateRobot implements GUI {
                     lastUpdate = System.nanoTime();
                     loop.start();
 
-                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine);
+                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead);
                 }
             }
         });

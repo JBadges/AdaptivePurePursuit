@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
 
+import control.Path;
 import gui.Main.Scenes;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -143,6 +143,10 @@ public class PathCreation implements GUI {
         }
     }
     
+    public static Path getPath() {
+        return new Path(getWaypoints().toArray(new Point2[0]));
+    }
+
     public static List<Point2> getWaypoints() {
         return waypoints;
     }

@@ -14,8 +14,8 @@ public class AdaptivePurePursuit {
     }
 
     public double[] getVoltageFromTwist(SpeedPoint twist, SkidRobot robot) {
-        double leftCommand = (twist.getVelocity() - twist.getCurvature() * robot.wheelDistance/2.0)/robot.wheelRadius);
-        double rightCommand = (twist.getVelocity() + twist.getCurvature() * robot.wheelDistance/2.0)/robot.wheelRadius);
+        double leftCommand = (twist.getVelocity() - twist.getCurvature() * robot.getWheelDistance()/2.0)/robot.getWheelRadius();
+        double rightCommand = (twist.getVelocity() + twist.getCurvature() * robot.getWheelDistance()/2.0)/robot.getWheelRadius();
         return new double[] {leftCommand, rightCommand};
     }
 
@@ -47,8 +47,8 @@ public class AdaptivePurePursuit {
     public Point3 getGoalPoint(Point3 position, double lookahead) {
         Point3 minPoint = null;
 
-        for(int i=path.segments.getSize()-1; i>=0; i--) {
-            PathSegment curSegment = path.segments.get(i);
+        for(int i=path.getSegments().size()-1; i>=0; i--) {
+            PathSegment curSegment = path.getSegments().get(i);
 
             double relStartX = curSegment.getStart().getX() - position.getX();
             double relStartY = curSegment.getStart().getY() - position.getY();

@@ -24,11 +24,13 @@ public class SimulateRobot implements GUI {
     private static double currentTime;
     private static double lastUpdate;
     private static AnimationTimer loop;
+    private static boolean stopLoop;
 
     public static Scene getScene() {
         currentTime = 0;
         lastUpdate = 0;
         loop = null;
+        stopLoop = false;
 
         Pane sp = new Pane();
         
@@ -57,6 +59,7 @@ public class SimulateRobot implements GUI {
             @Override
             public void handle(ActionEvent event) {
                 if(btn_simulateRobot.getText().equals("Start a new path")) {
+                    stopLoop = true;
                     loop.stop();
                     Main.changeScene(Scenes.PathCreation);
                 }
@@ -88,7 +91,7 @@ public class SimulateRobot implements GUI {
                         @Override
                         public void handle(long now) {
                             btn_simulateRobot.setText("Start a new path");
-                            if(currentTime > 15) {
+                            if(currentTime > 15 || stopLoop) {
                                 this.stop();
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;

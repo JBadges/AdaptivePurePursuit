@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.Point2;
-import util.Point3;
 
 public class Path {
 
@@ -20,5 +19,9 @@ public class Path {
         for(int i = 0; i < waypoints.length-1; i++) {
             segments.add(new PathSegment(waypoints[i], waypoints[i+1]));
         }
+    }
+
+    public List<PathSegment> getSegments() {
+        return segments;
     }
 }

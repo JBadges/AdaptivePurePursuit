@@ -148,7 +148,7 @@ public class SimulateRobot implements GUI {
 
         vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, btn_simulateRobot);
 
-        sp.getChildren().add(vb_input);
+        sp.getChildren().add(0,vb_input);
 
         Scene scene = new Scene(sp, 800, 600);
         return scene;

@@ -87,6 +87,7 @@ public class SimulateRobot implements GUI {
                     final double lookahead = 100;
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Circle robotLookahead = new Circle(-100, -100, lookahead);
+                    final Circle goalPointDebug = new Circle(-100, -100, 5);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.getPosition().getTheta()), 5*Math.sin(robot.getPosition().getTheta()));
                     AdaptivePurePursuit app = new AdaptivePurePursuit(PathCreation.getPath(), lookahead);
                     loop = new AnimationTimer(){
@@ -109,6 +110,10 @@ public class SimulateRobot implements GUI {
                             currentTime += dt;
 
                             //Update display
+                            Point3 goalP = app.getGoalPoint(robot.getPosition(), lookahead);
+                            goalPointDebug.setCenterX(goalP.getX());
+                            goalPointDebug.setCenterY(goalP.getY());
+                            goalPointDebug.setFill(new Color(1,0,0,0.5));
                             robotDebugBase.setCenterX(robot.getPosition().getX());
                             robotDebugBase.setCenterY(robot.getPosition().getY());
                             robotLookahead.setCenterX(robot.getPosition().getX());
@@ -136,7 +141,7 @@ public class SimulateRobot implements GUI {
                     lastUpdate = System.nanoTime();
                     loop.start();
 
-                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead);
+                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug);
                 }
             }
         });

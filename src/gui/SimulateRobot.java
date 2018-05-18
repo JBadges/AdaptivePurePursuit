@@ -109,20 +109,26 @@ public class SimulateRobot implements GUI {
                                 twist = app.update(robot.getPosition());
                             } catch (Error e) {
                                 Platform.runLater(alert::showAndWait);
+                                this.stop();
                             }
                             double[] voltages = app.getVoltageFromTwist(twist, robot);
                             double voltageLeft = voltages[0];
                             double voltageRight = voltages[1];
                             System.out.printf("Left %.6f | Right %.6f\n", voltageLeft, voltageRight);
-
-                            robot.updatePos(dt, voltageLeft, voltageRight);
+                            try {
+                                robot.updatePos(dt, voltageLeft, voltageRight);
+                            } catch (NullPointerException e) {
+                                
+                            }
 
                             currentTime += dt;
 
                             //Update display
                             Point3 goalP = app.getGoalPoint(robot.getPosition(), lookahead);
-                            goalPointDebug.setCenterX(goalP.getX());
-                            goalPointDebug.setCenterY(goalP.getY());
+                            if(goalP != null) {
+                                goalPointDebug.setCenterX(goalP.getX());
+                                goalPointDebug.setCenterY(goalP.getY());
+                            }
                             goalPointDebug.setFill(new Color(1,0,0,0.5));
                             robotDebugBase.setCenterX(robot.getPosition().getX());
                             robotDebugBase.setCenterY(robot.getPosition().getY());

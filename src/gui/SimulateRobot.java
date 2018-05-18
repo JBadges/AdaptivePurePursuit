@@ -5,12 +5,16 @@ import control.PathSegment;
 import control.SkidRobot;
 import gui.Main.Scenes;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -90,6 +94,7 @@ public class SimulateRobot implements GUI {
                     final Circle goalPointDebug = new Circle(-100, -100, 5);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.getPosition().getTheta()), 5*Math.sin(robot.getPosition().getTheta()));
                     AdaptivePurePursuit app = new AdaptivePurePursuit(PathCreation.getPath(), lookahead);
+                    final Alert alert = new Alert(AlertType.ERROR, "No point 1 lookahead distance from the robot could be found", ButtonType.OK);
                     loop = new AnimationTimer(){
                         @Override
                         public void handle(long now) {
@@ -99,7 +104,12 @@ public class SimulateRobot implements GUI {
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;
                             
-                            SpeedPoint twist = app.update(robot.getPosition());
+                            SpeedPoint twist = new SpeedPoint(0,0);
+                            try {
+                                twist = app.update(robot.getPosition());
+                            } catch (Error e) {
+                                Platform.runLater(alert::showAndWait);
+                            }
                             double[] voltages = app.getVoltageFromTwist(twist, robot);
                             double voltageLeft = voltages[0];
                             double voltageRight = voltages[1];

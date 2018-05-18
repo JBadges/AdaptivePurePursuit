@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -113,7 +115,7 @@ public class PathCreation implements GUI {
                     StackPane stackPane = new StackPane();
 
                     Circle circ = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
-                    waypoints.add(new Point3(mouseEvent.getX(), mouseEvent.getY()));
+                    waypoints.add(new Point2(mouseEvent.getX(), mouseEvent.getY()));
 
                     Label circleLabel = new Label("" + waypointCircles.size());
                     circleLabel.setTextAlignment(TextAlignment.CENTER);
@@ -144,7 +146,8 @@ public class PathCreation implements GUI {
     }
     
     public static Path getPath() {
-        return new Path(getWaypoints().toArray(new Point2[0]));
+        Point2[] arr = getWaypoints().toArray(new Point2[0]);
+        return new Path(arr);
     }
 
     public static List<Point2> getWaypoints() {

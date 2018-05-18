@@ -22,7 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import util.Point2;
 import util.Point3;
-import util.SpeedPoint;
+import util.Twist;
 
 public class SimulateRobot implements GUI {
 
@@ -92,6 +92,7 @@ public class SimulateRobot implements GUI {
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Circle robotLookahead = new Circle(-100, -100, lookahead);
                     final Circle goalPointDebug = new Circle(-100, -100, 5);
+                    final Circle turningArcDebug = new Circle(-100, -100, 5);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.getPosition().getTheta()), 5*Math.sin(robot.getPosition().getTheta()));
                     AdaptivePurePursuit app = new AdaptivePurePursuit(PathCreation.getPath(), lookahead);
                     final Alert alert = new Alert(AlertType.ERROR, "No point 1 lookahead distance from the robot could be found", ButtonType.OK);
@@ -104,7 +105,7 @@ public class SimulateRobot implements GUI {
                             }
                             final double dt = (now-lastUpdate) / 1000000000.0;
                             
-                            SpeedPoint twist = new SpeedPoint(0,0);
+                            Twist twist = new Twist(0,0);
                             try {
                                 twist = app.update(robot.getPosition());
                             } catch (Error e) {
@@ -130,6 +131,12 @@ public class SimulateRobot implements GUI {
                                 goalPointDebug.setCenterY(goalP.getY());
                             }
                             goalPointDebug.setFill(new Color(1,0,0,0.5));
+                            if(goalP != null) {
+                                turningArcDebug.setCenterX(app.getTurningCircle().center.getX());
+                                turningArcDebug.setCenterY(app.getTurningCircle().center.getY());
+                                turningArcDebug.setRadius(app.getTurningCircle().radius);
+                            }
+                            turningArcDebug.setFill(new Color(1,0,0,0.2));
                             robotDebugBase.setCenterX(robot.getPosition().getX());
                             robotDebugBase.setCenterY(robot.getPosition().getY());
                             robotLookahead.setCenterX(robot.getPosition().getX());
@@ -157,7 +164,7 @@ public class SimulateRobot implements GUI {
                     lastUpdate = System.nanoTime();
                     loop.start();
 
-                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug);
+                    sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug, turningArcDebug);
                 }
             }
         });

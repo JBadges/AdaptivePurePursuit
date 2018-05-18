@@ -1,6 +1,6 @@
 package util;
 
-public class SpeedPoint {
+public class Twist {
 
     /**
      * Velocity in meters/seconds
@@ -11,7 +11,7 @@ public class SpeedPoint {
      */
     private double omega;
     
-    public SpeedPoint(double v, double w) {
+    public Twist(double v, double w) {
         this.velocity = v;
         this.omega = w;
     }

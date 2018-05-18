@@ -1,25 +1,29 @@
 package control;
 
+import util.Twist;
 import util.Point3;
-import util.SpeedPoint;
 
 public class AdaptivePurePursuit {
 
     private Path path;
     private double lookahead;
 
+    //DEBUGGING
+    private Circle circle;
+
     public AdaptivePurePursuit (Path path, double lookahead) {
         this.path = path;
         this.lookahead = lookahead;
+        this.circle = new Circle();
     }
 
-    public double[] getVoltageFromTwist(SpeedPoint twist, SkidRobot robot) {
+    public double[] getVoltageFromTwist(Twist twist, SkidRobot robot) {
         double leftCommand = (twist.getVelocity() - twist.getCurvature() * robot.getWheelDistance()/2.0)/robot.getWheelRadius();
         double rightCommand = (twist.getVelocity() + twist.getCurvature() * robot.getWheelDistance()/2.0)/robot.getWheelRadius();
         return new double[] {leftCommand, rightCommand};
     }
 
-    public SpeedPoint update(Point3 pose) {
+    public Twist update(Point3 pose) {
     	double curX = pose.getX();
     	double curY = pose.getY();
     	
@@ -36,6 +40,9 @@ public class AdaptivePurePursuit {
         double centreX = (bMirror-bPerp)/(mPerp-mMirror);
         double centreY = centreX*mPerp+bPerp;
         double radius = Math.sqrt(Math.pow(curX-centreX,2)+Math.pow(curY-centreY,2));
+        circle.center.setX(centreX);
+        circle.center.setY(centreY);
+        circle.radius = radius;
         double updateX = curX+10;
         double updateY = curY+10*Math.atan(pose.getTheta());
         
@@ -44,7 +51,7 @@ public class AdaptivePurePursuit {
         double velocity = 1;
         double omega = velocity/radius*(isRightTurn?1:-1);
         
-        return new SpeedPoint(velocity, omega);
+        return new Twist(velocity, omega);
     }
     
     public Point3 getGoalPoint(Point3 position, double lookahead) {
@@ -96,4 +103,9 @@ public class AdaptivePurePursuit {
         
         return minPoint;
     }
+
+    public Circle getTurningCircle() {
+        return circle;
+    }
+
 }

@@ -1,6 +1,7 @@
 package control;
 
 import util.Twist;
+import annotation.Debug;
 import util.Point3;
 
 public class AdaptivePurePursuit {
@@ -8,7 +9,7 @@ public class AdaptivePurePursuit {
     private Path path;
     private double lookahead;
 
-    //DEBUGGING
+    @Debug
     private Circle circle;
 
     public AdaptivePurePursuit (Path path, double lookahead) {
@@ -104,6 +105,7 @@ public class AdaptivePurePursuit {
         return minPoint;
     }
 
+    @Debug
     public Circle getTurningCircle() {
         return circle;
     }

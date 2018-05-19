@@ -4,6 +4,8 @@ import util.Point3;
 
 public class SkidRobot {
 
+    //Data for a cim motor
+
     // Stall Torque in N m
     private double stallTorque = 2.402;
     // Stall Current in Amps

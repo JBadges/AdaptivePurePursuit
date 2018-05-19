@@ -1,7 +1,6 @@
 package control;
 
 import util.Twist;
-import annotation.Debug;
 import util.Point3;
 
 public class AdaptivePurePursuit {

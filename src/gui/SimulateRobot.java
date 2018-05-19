@@ -1,6 +1,7 @@
 package gui;
 
 import control.AdaptivePurePursuit;
+import control.Debug;
 import control.PathSegment;
 import control.SkidRobot;
 import gui.Main.Scenes;
@@ -54,12 +55,16 @@ public class SimulateRobot implements GUI {
         VBox vb_input = new VBox();
         VBox vb_wheelDist = new VBox();
         TextField txtf_wheelDist = new TextField();
-        Label lbl_wheelDist = new Label("Robot Wheel Distance");
+        Label lbl_wheelDist = new Label("Robot Wheel Distance m");
         vb_wheelDist.getChildren().addAll(lbl_wheelDist, txtf_wheelDist);
         VBox vb_robotMassKg = new VBox();
         TextField txtf_robotMassKg = new TextField();
         Label lbl_robotMassKg = new Label("Robot Mass Kg");
         vb_robotMassKg.getChildren().addAll(lbl_robotMassKg, txtf_robotMassKg);
+        VBox vb_lookaheaddistance = new VBox();
+        TextField txtf_lookaheaddistance = new TextField();
+        Label lbl_lookaheaddistance = new Label("Lookahead Distance m");
+        vb_lookaheaddistance.getChildren().addAll(lbl_lookaheaddistance, txtf_lookaheaddistance);
         Button btn_simulateRobot = new Button("Simulate Robot Path");
         btn_simulateRobot.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -79,6 +84,10 @@ public class SimulateRobot implements GUI {
                     txtf_robotMassKg.setText("Must be numeric");
                     isValidInput = false;
                 }
+                if (!txtf_lookaheaddistance.getText().matches("-?\\d+(\\.\\d+)?")) {
+                    txtf_lookaheaddistance.setText("Must be numeric");
+                    isValidInput = false;
+                }
                 //Input is valid - Commence robot simulation
                 if (isValidInput) {
                     //Robot information setup
@@ -88,10 +97,12 @@ public class SimulateRobot implements GUI {
                     PathSegment startToSecond = new PathSegment(starting, second);
                     robot.setPosition(new Point3(starting.getX(), starting.getY(), second.getX()<starting.getX()?Math.atan(startToSecond.getSlope())+Math.PI:Math.atan(startToSecond.getSlope())));
                     //Robot design setup
-                    final double lookahead = 100;
+                    final double lookahead = Double.parseDouble(txtf_lookaheaddistance.getText());
                     final Circle robotDebugBase = new Circle(-100, -100, 10);
                     final Circle robotLookahead = new Circle(-100, -100, lookahead);
+                    @Debug
                     final Circle goalPointDebug = new Circle(-100, -100, 5);
+                    @Debug
                     final Circle turningArcDebug = new Circle(-100, -100, 5);
                     final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5*Math.cos(robot.getPosition().getTheta()), 5*Math.sin(robot.getPosition().getTheta()));
                     AdaptivePurePursuit app = new AdaptivePurePursuit(PathCreation.getPath(), lookahead);
@@ -115,7 +126,6 @@ public class SimulateRobot implements GUI {
                             double[] voltages = app.getVoltageFromTwist(twist, robot);
                             double voltageLeft = voltages[0];
                             double voltageRight = voltages[1];
-                            System.out.printf("Left %.6f | Right %.6f\n", voltageLeft, voltageRight);
                             try {
                                 robot.updatePos(dt, voltageLeft, voltageRight);
                             } catch (NullPointerException e) {
@@ -169,9 +179,9 @@ public class SimulateRobot implements GUI {
             }
         });
 
-        vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, btn_simulateRobot);
+        vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, vb_lookaheaddistance, btn_simulateRobot);
 
-        sp.getChildren().add(0,vb_input);
+        sp.getChildren().add(0, vb_input);
 
         Scene scene = new Scene(sp, 800, 600);
         return scene;

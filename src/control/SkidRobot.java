@@ -60,12 +60,10 @@ public class SkidRobot {
 	}
 
 	public void updatePos(double dt, double voltageLeft, double voltageRight) {
-		voltageLeft *= speedModifier;
-		voltageRight *= speedModifier;
 		while (dt > 0) {
 			double current_dt = Math.min(dt, 0.001);
-			double Dl = leftVelocity * current_dt;
-			double Dr = rightVelocity * current_dt;
+			double Dl = leftVelocity * current_dt * speedModifier;
+			double Dr = rightVelocity * current_dt * speedModifier;
 			double radius = robotWheelDistance * (Dl + Dr) / (2 * (Dr - Dl));
 			radius = Double.isNaN(radius) || Double.isInfinite(radius) ? 1e6 : radius;
 			double newX;

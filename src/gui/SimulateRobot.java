@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -25,6 +26,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import util.Point2;
 import util.Point3;
+import util.SinglePress;
+import util.Toggle;
 import util.Twist;
 
 public class SimulateRobot implements GUI {
@@ -35,6 +38,7 @@ public class SimulateRobot implements GUI {
 	private static AnimationTimer loop;
 	private static boolean stopLoop;
 
+	
 	public static Scene getScene() {
 		currentTime = 0;
 		lastUpdate = 0;
@@ -185,10 +189,19 @@ public class SimulateRobot implements GUI {
 		});
 
 		vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, vb_lookaheaddistance, btn_simulateRobot);
-
 		sp.getChildren().add(0, vb_input);
 
 		Scene scene = new Scene(sp, 800, 600);
+		
+		scene.setOnKeyPressed(e -> {
+			switch (e.getCode()) {
+			case ESCAPE:
+				stopLoop = true;
+				Main.changeScene(Scenes.PathCreation);
+				break;
+			}
+		});
+
 		return scene;
 	}
 

@@ -37,11 +37,11 @@ public class AdaptivePurePursuit {
 		double bMirror = midY - midX * mMirror;
 		double mPerp = -1 / (Math.atan(pose.getTheta()));
 		double bPerp = curY - mPerp * curX;
-		double centreX = (bMirror - bPerp) / (mPerp - mMirror);
-		double centreY = centreX * mPerp + bPerp;
-		double radius = Math.sqrt(Math.pow(curX - centreX, 2) + Math.pow(curY - centreY, 2));
-		circle.center.setX(centreX);
-		circle.center.setY(centreY);
+		double centerX = (bMirror - bPerp) / (mPerp - mMirror);
+		double centerY = centerX * mPerp + bPerp;
+		double radius = Math.sqrt(Math.pow(curX - centerX, 2) + Math.pow(curY - centerY, 2));
+		circle.center.setX(centerX);
+		circle.center.setY(centerY);
 		circle.radius = radius;
 		double updateX = curX + 10*Math.cos(pose.getTheta());
 		double updateY = curY + 10*Math.sin(pose.getTheta());

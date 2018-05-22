@@ -19,8 +19,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -81,43 +84,46 @@ public class MainMenu implements GUI {
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open Path File");
 				File pathFile = fileChooser.showOpenDialog(null);
-
-				//Find extension type
-				String extension = "";
-				int i = pathFile.getName().lastIndexOf('.');
-				if (i > 0) {
-					extension = pathFile.getName().substring(i + 1);
-				}
-				if (pathFile != null && extension.toLowerCase().equals("json")) {
-					Gson gson = new Gson();
-					JsonReader reader = null;
-					try {
-						reader = new JsonReader(new FileReader(pathFile));
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+				if (pathFile != null) {
+					//Find extension type
+					String extension = "";
+					int i = pathFile.getName().lastIndexOf('.');
+					if (i > 0) {
+						extension = pathFile.getName().substring(i + 1);
 					}
-					JSONWaypoints waypoints = gson.fromJson(reader, JSONWaypoints.class);
-					PathCreation.getWaypoints().clear();
-					PathCreation.getWaypoints().addAll(waypoints.waypoints);
+					if (extension.toLowerCase().equals("json")) {
+						Gson gson = new Gson();
+						JsonReader reader = null;
+						try {
+							reader = new JsonReader(new FileReader(pathFile));
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						}
+						JSONWaypoints waypoints = gson.fromJson(reader, JSONWaypoints.class);
+						PathCreation.getWaypoints().clear();
+						PathCreation.getWaypoints().addAll(waypoints.waypoints);
 
-					for (int j = 0; j < PathCreation.getWaypoints().size(); j++) {
-						StackPane stackPane = new StackPane();
+						for (int j = 0; j < PathCreation.getWaypoints().size(); j++) {
+							StackPane stackPane = new StackPane();
 
-						Circle circ = new Circle(PathCreation.getWaypoints().get(j).getX(), PathCreation.getWaypoints().get(j).getY(), 5);
-						Label circleLabel = new Label("" + PathCreation.getCircles().size());
-						circleLabel.setTextAlignment(TextAlignment.CENTER);
-						circ.radiusProperty().bind(circleLabel.widthProperty());
+							Circle circ = new Circle(PathCreation.getWaypoints().get(j).getX(), PathCreation.getWaypoints().get(j).getY(), 5);
+							Label circleLabel = new Label("" + PathCreation.getCircles().size());
+							circleLabel.setTextAlignment(TextAlignment.CENTER);
+							circ.radiusProperty().bind(circleLabel.widthProperty());
 
-						stackPane.getChildren().addAll(circ, circleLabel);
-						PathCreation.getCircles().add(stackPane);
+							stackPane.getChildren().addAll(circ, circleLabel);
+							PathCreation.getCircles().add(stackPane);
 
-						//Changing the color based on number of waypoints
-						PathCreation.circleColors(PathCreation.getCircles());
+							//Changing the color based on number of waypoints
+							PathCreation.circleColors(PathCreation.getCircles());
 
-						stackPane.setLayoutX(circ.getCenterX() - 5);
-						stackPane.setLayoutY(circ.getCenterY() - 5);
+							stackPane.setLayoutX(circ.getCenterX() - 5);
+							stackPane.setLayoutY(circ.getCenterY() - 5);
+						}
+						Main.changeScene(Scenes.SimulateRobot);
+					} else {
+						new Alert(AlertType.ERROR, "Please choose a .JSON file type", ButtonType.OK).showAndWait();
 					}
-					Main.changeScene(Scenes.SimulateRobot);
 				}
 			}
 		});

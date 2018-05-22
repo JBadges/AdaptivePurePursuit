@@ -13,8 +13,11 @@ import gui.Main.Scenes;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -87,15 +90,15 @@ public class PathCreation implements GUI {
 						writer = new FileWriter(selectedFile);
 						writer.write(strJson);
 					} catch (NullPointerException e) {
-						e.printStackTrace();
+						new Alert(AlertType.ERROR, "Please choose a valid file location", ButtonType.OK).showAndWait();
 					} catch (IOException e) {
-						e.printStackTrace();
+						new Alert(AlertType.ERROR, "IOException caught", ButtonType.OK).showAndWait();
 					} finally {
 						if (writer != null) {
 							try {
 								writer.close();
 							} catch (IOException e) {
-								e.printStackTrace();
+								new Alert(AlertType.ERROR, "IOException caught", ButtonType.OK).showAndWait();
 							}
 						}
 					}

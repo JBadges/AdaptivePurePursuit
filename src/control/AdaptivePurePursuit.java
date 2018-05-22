@@ -57,6 +57,10 @@ public class AdaptivePurePursuit {
 	public Point3 getGoalPoint(Point3 position, double lookahead) {
 		Point3 minPoint = null;
 
+		if(position.distanceTo(path.getSegments().get(path.getSegments().size()-1).getEnd()) <= lookahead) {
+			return new Point3 (path.getSegments().get(path.getSegments().size()-1).getEnd(), Math.atan(path.getSegments().get(path.getSegments().size()-1).getSlope()));
+		}
+		
 		// for(int i = path.getSegments().size()-1; i >= 0; i--) {
 		for (int i = 0; i < path.getSegments().size(); i++) {
 			PathSegment curSegment = path.getSegments().get(i);

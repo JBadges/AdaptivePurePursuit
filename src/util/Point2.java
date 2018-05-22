@@ -47,5 +47,11 @@ public class Point2 {
 	public String toString() {
 		return "x: " + x + " y: " + y;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return Math.abs(((Point2) obj).getX() - this.getX()) < 1e-5 && Math.abs(((Point2) obj).getY() - this.getY()) < 1e-5;
+				
+	}
 
 }

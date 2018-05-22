@@ -20,6 +20,15 @@ public class AdaptivePurePursuit {
 	public double[] getVoltageFromTwist(Twist twist, SkidRobot robot) {
 		double leftCommand = (twist.getVelocity() - twist.getCurvature() * robot.getWheelDistance() / 2.0) / robot.getWheelRadius();
 		double rightCommand = (twist.getVelocity() + twist.getCurvature() * robot.getWheelDistance() / 2.0) / robot.getWheelRadius();
+		
+		double max = Math.max(Math.abs(leftCommand), Math.abs(rightCommand));
+		if(max > 12) {
+			leftCommand /= max;
+			rightCommand /= max;
+			leftCommand *= 12;
+			rightCommand *= 12;
+		}
+		
 		return new double[] { leftCommand, rightCommand };
 	}
 
@@ -31,6 +40,7 @@ public class AdaptivePurePursuit {
 		if (goalPoint == null) {
 			throw new NullPointerException();
 		}
+		
 		double mMirror = (curX - goalPoint.getX()) / (goalPoint.getY() - curY);
 		double midX = (curX + goalPoint.getX()) / 2;
 		double midY = (curY + goalPoint.getY()) / 2;
@@ -49,8 +59,11 @@ public class AdaptivePurePursuit {
 		boolean isRightTurn = (updateX - curX) * (goalPoint.getY() - curY) - (goalPoint.getX() - curX) * (updateY - curY) > 0;
 
 		double velocity = 1;
+		if(path.getSegments().get(path.getSegments().size()-1).getEnd().equals(goalPoint)) {
+			velocity = (pose.distanceTo(goalPoint) < 1e-2 ? 0 : pose.distanceTo(goalPoint)) * 0.07;
+		}
 		double omega = velocity / radius * (isRightTurn ? 1 : -1);
-
+		
 		return new Twist(velocity, omega);
 	}
 

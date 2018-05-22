@@ -43,8 +43,8 @@ public class AdaptivePurePursuit {
 		circle.center.setX(centreX);
 		circle.center.setY(centreY);
 		circle.radius = radius;
-		double updateX = curX + 10;
-		double updateY = curY + 10 * Math.atan(pose.getTheta());
+		double updateX = curX + 10*Math.cos(pose.getTheta());
+		double updateY = curY + 10*Math.sin(pose.getTheta());
 
 		boolean isRightTurn = (updateX - curX) * (goalPoint.getY() - curY) - (goalPoint.getX() - curX) * (updateY - curY) > 0;
 

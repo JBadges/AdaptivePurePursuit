@@ -53,6 +53,7 @@ public class AdaptivePurePursuit {
 		circle.center.setX(centerX);
 		circle.center.setY(centerY);
 		circle.radius = radius;
+		
 		double updateX = curX + 10*Math.cos(pose.getTheta());
 		double updateY = curY + 10*Math.sin(pose.getTheta());
 
@@ -92,7 +93,7 @@ public class AdaptivePurePursuit {
 			if (Math.abs(discrim) < 1e-5) {
 				double x = (D * dY) / (dR * dR) + position.getX();
 				double y = (-1 * D * dX) / (dR * dR) + position.getY();
-				minPoint = new Point3(x, y, Math.atan(curSegment.getSlope()));
+				minPoint = new Point3(x, y, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 			} else if (discrim > 0) {
 				double x1 = (D * dY + (dY < 0 ? -1 : 1) * dX * Math.sqrt(discrim)) / (dR * dR) + position.getX();
 				double y1 = (-1 * D * dX + Math.abs(dY) * Math.sqrt(discrim)) / (dR * dR) + position.getY();
@@ -106,14 +107,14 @@ public class AdaptivePurePursuit {
 
 				if (oneContained && twoContained) {
 					if (distEnd1 < distEnd2) {
-						minPoint = new Point3(x1, y1, Math.atan(curSegment.getSlope()));
+						minPoint = new Point3(x1, y1, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 					} else {
-						minPoint = new Point3(x2, y2, Math.atan(curSegment.getSlope()));
+						minPoint = new Point3(x2, y2, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 					}
 				} else if (oneContained) {
-					minPoint = new Point3(x1, y1, Math.atan(curSegment.getSlope()));
+					minPoint = new Point3(x1, y1, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 				} else if (twoContained) {
-					minPoint = new Point3(x2, y2, Math.atan(curSegment.getSlope()));
+					minPoint = new Point3(x2, y2, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 				}
 			}
 		}

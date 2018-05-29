@@ -1,7 +1,6 @@
 package gui;
 
 import control.AdaptivePurePursuit;
-import control.Debug;
 import control.Path;
 import control.PathSegment;
 import control.SkidRobot;
@@ -14,7 +13,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -26,8 +24,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import util.Point2;
 import util.Point3;
-import util.SinglePress;
-import util.Toggle;
 import util.Twist;
 
 public class SimulateRobot implements GUI {
@@ -105,10 +101,7 @@ public class SimulateRobot implements GUI {
 						final double lookahead = Double.parseDouble(txtf_lookaheaddistance.getText());
 						final Circle robotDebugBase = new Circle(-100, -100, 10);
 						final Circle robotLookahead = new Circle(-100, -100, lookahead);
-						@Debug
 						final Circle goalPointDebug = new Circle(-100, -100, 5);
-						@Debug
-						final Circle turningArcDebug = new Circle(-100, -100, 5);
 						final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5 * Math.cos(robot.getPosition().getTheta()), 5 * Math.sin(robot.getPosition().getTheta()));
 						Path path = null;
 						try {
@@ -117,7 +110,7 @@ public class SimulateRobot implements GUI {
 							new Alert(AlertType.ERROR, "Error Creating Path", ButtonType.OK).showAndWait();
 						}
 						AdaptivePurePursuit app = new AdaptivePurePursuit(path, lookahead);
-						final Alert alert = new Alert(AlertType.ERROR, "No point 1 lookahead distance from the robot could be found", ButtonType.OK);
+						final Alert alert = new Alert(AlertType.ERROR, "- No point 1 lookahead distance from the robot could be found.\n- A different lookahead distance may fix the issue\nIf the issue was caused by overshooting the last point, the mass of the robot may be too high for the current lookahead distance. Decrease mass or increase lookahead distance.\n- 1 Pixle is a meter and the current speed multipler is " + robot.speedModifier, ButtonType.OK);
 						loop = new AnimationTimer() {
 							@Override
 							public void handle(long now) {
@@ -129,7 +122,7 @@ public class SimulateRobot implements GUI {
 
 								Twist twist = new Twist(0, 0);
 								try {
-									twist = app.update(robot.getPosition());
+									twist = app.update(robot.getPosition(), robot);
 									double[] voltages = app.getVoltageFromTwist(twist, robot);
 									double voltageLeft = voltages[0];
 									double voltageRight = voltages[1];
@@ -144,12 +137,6 @@ public class SimulateRobot implements GUI {
 										goalPointDebug.setCenterY(goalP.getY());
 									}
 									goalPointDebug.setFill(new Color(1, 0, 0, 0.5));
-									if (goalP != null) {
-										turningArcDebug.setCenterX(app.getTurningCircle().center.getX());
-										turningArcDebug.setCenterY(app.getTurningCircle().center.getY());
-										turningArcDebug.setRadius(app.getTurningCircle().radius);
-									}
-									turningArcDebug.setFill(new Color(1, 0, 0, 0.2));
 									robotDebugBase.setCenterX(robot.getPosition().getX());
 									robotDebugBase.setCenterY(robot.getPosition().getY());
 									robotLookahead.setCenterX(robot.getPosition().getX());
@@ -182,7 +169,7 @@ public class SimulateRobot implements GUI {
 						lastUpdate = System.nanoTime();
 						loop.start();
 
-						sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug, turningArcDebug);
+						sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug);
 					}
 				}
 			}

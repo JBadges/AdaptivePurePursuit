@@ -8,13 +8,9 @@ public class AdaptivePurePursuit {
 	private Path path;
 	private double lookahead;
 
-	@Debug
-	private Circle circle;
-
 	public AdaptivePurePursuit(Path path, double lookahead) {
 		this.path = path;
 		this.lookahead = lookahead;
-		this.circle = new Circle();
 	}
 
 	public double[] getVoltageFromTwist(Twist twist, SkidRobot robot) {
@@ -32,7 +28,7 @@ public class AdaptivePurePursuit {
 		return new double[] { leftCommand, rightCommand };
 	}
 
-	public Twist update(Point3 pose) {
+	public Twist update(Point3 pose, SkidRobot robot) {
 		double curX = pose.getX();
 		double curY = pose.getY();
 
@@ -50,9 +46,6 @@ public class AdaptivePurePursuit {
 		double centerX = (bMirror - bPerp) / (mPerp - mMirror);
 		double centerY = centerX * mPerp + bPerp;
 		double radius = Math.sqrt(Math.pow(curX - centerX, 2) + Math.pow(curY - centerY, 2));
-		circle.center.setX(centerX);
-		circle.center.setY(centerY);
-		circle.radius = radius;
 		double updateX = curX + 10*Math.cos(pose.getTheta());
 		double updateY = curY + 10*Math.sin(pose.getTheta());
 
@@ -60,7 +53,8 @@ public class AdaptivePurePursuit {
 
 		double velocity = 1;
 		if(path.getSegments().get(path.getSegments().size()-1).getEnd().equals(goalPoint)) {
-			velocity = (pose.distanceTo(goalPoint) < 1e-2 ? 0 : pose.distanceTo(goalPoint)) * 0.07;
+			double correctedDist = pose.distanceTo(goalPoint);
+			velocity = (correctedDist < 1e-2 ? 0 : correctedDist) * ( (lookahead / robot.getMass()) * 0.02);
 		}
 		double omega = velocity / radius * (isRightTurn ? 1 : -1);
 		
@@ -92,7 +86,7 @@ public class AdaptivePurePursuit {
 			if (Math.abs(discrim) < 1e-5) {
 				double x = (D * dY) / (dR * dR) + position.getX();
 				double y = (-1 * D * dX) / (dR * dR) + position.getY();
-				minPoint = new Point3(x, y, Math.atan(curSegment.getSlope()));
+				minPoint = new Point3(x, y, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 			} else if (discrim > 0) {
 				double x1 = (D * dY + (dY < 0 ? -1 : 1) * dX * Math.sqrt(discrim)) / (dR * dR) + position.getX();
 				double y1 = (-1 * D * dX + Math.abs(dY) * Math.sqrt(discrim)) / (dR * dR) + position.getY();
@@ -106,24 +100,19 @@ public class AdaptivePurePursuit {
 
 				if (oneContained && twoContained) {
 					if (distEnd1 < distEnd2) {
-						minPoint = new Point3(x1, y1, Math.atan(curSegment.getSlope()));
+						minPoint = new Point3(x1, y1, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 					} else {
-						minPoint = new Point3(x2, y2, Math.atan(curSegment.getSlope()));
+						minPoint = new Point3(x2, y2, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 					}
 				} else if (oneContained) {
-					minPoint = new Point3(x1, y1, Math.atan(curSegment.getSlope()));
+					minPoint = new Point3(x1, y1, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 				} else if (twoContained) {
-					minPoint = new Point3(x2, y2, Math.atan(curSegment.getSlope()));
+					minPoint = new Point3(x2, y2, curSegment.getStart().getX()>curSegment.getEnd().getX() ? Math.atan(curSegment.getSlope())+Math.PI : Math.atan(curSegment.getSlope()));
 				}
 			}
 		}
 
 		return minPoint;
-	}
-
-	@Debug
-	public Circle getTurningCircle() {
-		return circle;
 	}
 
 }

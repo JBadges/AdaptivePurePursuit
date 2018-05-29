@@ -57,7 +57,7 @@ public class PathSegment {
 		return start.distanceTo(end);
 	}
 
-	public Point3 intersection(PathSegment line) {
+	public Point2 intersection(PathSegment line) {
 		double x = (line.getYInt() - this.getYInt()) / (this.getSlope() - line.getSlope());
 		double y = this.getSlope() * x + this.getYInt();
 		return new Point3(x, y, 0);

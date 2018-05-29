@@ -28,7 +28,7 @@ public class SkidRobot {
 	// Radius of pulley
 	private double kr = 0.065786 / 2.0;
 
-	private static double speedModifier = 15.0;
+	public static double speedModifier = 15.0;
 
 	private Point3 position;
 	//In m/s
@@ -89,6 +89,10 @@ public class SkidRobot {
 
 			dt -= 0.001;
 		}
+	}
+
+	public double getMass() {
+		return mass;
 	}
 
 	public double getWheelRadius() {

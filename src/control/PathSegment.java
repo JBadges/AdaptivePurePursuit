@@ -63,22 +63,4 @@ public class PathSegment {
 		return new Point3(x, y, 0);
 	}
 
-	public boolean isPointContained(Point3 point) {
-		double crossProduct = (point.getY() - start.getY()) * (end.getX() - start.getX()) - (point.getX() - start.getX()) * (end.getY() - start.getY());
-		if (Math.abs(crossProduct) > 1e-5) {
-			return false;
-		}
-
-		double dotProduct = (point.getX() - start.getX()) * (end.getX() - start.getX()) + (point.getY() - start.getY()) * (end.getY() - start.getY());
-		if (dotProduct < 0) {
-			return false;
-		}
-
-		double squaredLengthBA = (end.getX() - start.getX()) * (end.getX() - start.getX()) + (end.getY() - start.getY()) * (end.getY() - start.getY());
-		if (dotProduct > squaredLengthBA) {
-			return false;
-		}
-
-		return true;
-	}
 }

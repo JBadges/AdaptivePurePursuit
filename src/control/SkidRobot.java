@@ -49,12 +49,12 @@ public class SkidRobot {
 		SkidRobot.speedModifier = speedModifier;
 	}
 
-	public void updateLeftVelocity(double dt, double voltage) {
+	private void updateLeftVelocity(double dt, double voltage) {
 		double acceleration = -Kt * kG * kG / (Kv * resistance * kr * kr * mass) * leftVelocity + kG * Kt / (resistance * kr * mass) * voltage;
 		leftVelocity += dt * acceleration;
 	}
 
-	public void updateRightVelcoty(double dt, double voltage) {
+	private void updateRightVelcoty(double dt, double voltage) {
 		double acceleration = -Kt * kG * kG / (Kv * resistance * kr * kr * mass) * rightVelocity + kG * Kt / (resistance * kr * mass) * voltage;
 		rightVelocity += dt * acceleration;
 	}

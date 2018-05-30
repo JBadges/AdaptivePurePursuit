@@ -18,11 +18,16 @@ public class Point3 extends Point2 {
 		this.theta = theta;
 	}
 
-	public void normalizeHeading() {
-		while (theta >= Math.PI * 2)
+	/**
+	 * Adds or substracts 2Pi until the theta is between 0 <= x < 2Pi
+	 */
+	public void normalizeTheta() {
+		while (theta >= Math.PI * 2) {
 			theta -= Math.PI * 2;
-		while (theta <= Math.PI * 2)
+		}
+		while (theta < 0) {
 			theta += Math.PI * 2;
+		}
 	}
 
 	public double getTheta() {

@@ -31,16 +31,31 @@ public class Point2 {
 		this.y = y;
 	}
 
+	/**
+	 * The distance from this point to the parameter point
+	 * @param point
+	 * @return sqrt(x^2 + y^2)
+	 */
 	public double distanceTo(Point2 point) {
 		return Math.sqrt((point.getX() - this.getX()) * (point.getX() - this.getX()) + (point.getY() - this.getY()) * (point.getY() - this.getY()));
 	}
 
-	public static double dot(Point3 a, Point3 b) {
-		return a.getX() * b.getX() + a.getY() * b.getY();
+	/**
+	 * The dot product of the x,y values of the points
+	 * @param a
+	 * @return
+	 */
+	public double dot(Point2 a) {
+		return getX() * a.getX() + getY() * a.getY();
 	}
-
-	public static double cross(Point3 a, Point3 b) {
-		return a.getX() * b.getY() - a.getY() * b.getX();
+	
+	/**
+	 * The cross product of the x,y values of the points
+	 * @param a
+	 * @return
+	 */
+	public double cross(Point2 a) {
+		return getX() * a.getY() - getY() * a.getX();
 	}
 
 	@Override
@@ -50,8 +65,7 @@ public class Point2 {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return Math.abs(((Point2) obj).getX() - this.getX()) < 1e-5 && Math.abs(((Point2) obj).getY() - this.getY()) < 1e-5;
-				
+		return Math.abs(((Point2) obj).getX() - this.getX()) < 1e-5 && Math.abs(((Point2) obj).getY() - this.getY()) < 1e-5;	
 	}
 
 }

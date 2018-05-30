@@ -59,6 +59,12 @@ public class SkidRobot {
 		rightVelocity += dt * acceleration;
 	}
 
+	/**
+	 * Runs the dt in 0.001 second increments to improve accuracy 
+	 * @param dt - time to run
+	 * @param voltageLeft - voltage to apply
+	 * @param voltageRight - voltage to apply
+	 */
 	public void updatePos(double dt, double voltageLeft, double voltageRight) {
 		while (dt > 0) {
 			double current_dt = Math.min(dt, 0.001);

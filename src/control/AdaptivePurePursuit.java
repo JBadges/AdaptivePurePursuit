@@ -5,14 +5,25 @@ import util.Point3;
 
 public class AdaptivePurePursuit {
 
-	private Path path;
-	private double lookahead;
+	private final Path path;
+	private final double lookahead;
 
+	/**
+	 * 
+	 * @param path - The ordered path for the robot to follow
+	 * @param lookahead - The distance the robot looks for points in meters
+	 */
 	public AdaptivePurePursuit(Path path, double lookahead) {
 		this.path = path;
 		this.lookahead = lookahead;
 	}
 
+	/**
+	 * 
+	 * @param twist - the velocities it needs to achieve
+	 * @param robot - the constants class for the conversion
+	 * @return the voltage for left[0] and right[1]
+	 */
 	public double[] getVoltageFromTwist(Twist twist, SkidRobot robot) {
 		double leftCommand = (twist.getVelocity() - twist.getCurvature() * robot.getWheelDistance() / 2.0) / robot.getWheelRadius();
 		double rightCommand = (twist.getVelocity() + twist.getCurvature() * robot.getWheelDistance() / 2.0) / robot.getWheelRadius();
@@ -28,6 +39,12 @@ public class AdaptivePurePursuit {
 		return new double[] { leftCommand, rightCommand };
 	}
 
+	/**
+	 * 
+	 * @param pose - the current x,y,theta position of the robot
+	 * @param robot - the robot constants
+	 * @return the twist value to go to the desired location
+	 */
 	public Twist update(Point3 pose, SkidRobot robot) {
 		double curX = pose.getX();
 		double curY = pose.getY();
@@ -61,6 +78,12 @@ public class AdaptivePurePursuit {
 		return new Twist(velocity, omega);
 	}
 
+	/**
+	 * 
+	 * @param position - the current x,y,theta position of the robot
+	 * @param lookahead - the raidus around the robot it will look for points
+	 * @return the point closest to the end of the path 1 lookahead distance away
+	 */
 	public Point3 getGoalPoint(Point3 position, double lookahead) {
 		Point3 minPoint = null;
 
@@ -68,7 +91,6 @@ public class AdaptivePurePursuit {
 			return new Point3 (path.getSegments().get(path.getSegments().size()-1).getEnd(), Math.atan(path.getSegments().get(path.getSegments().size()-1).getSlope()));
 		}
 		
-		// for(int i = path.getSegments().size()-1; i >= 0; i--) {
 		for (int i = 0; i < path.getSegments().size(); i++) {
 			PathSegment curSegment = path.getSegments().get(i);
 

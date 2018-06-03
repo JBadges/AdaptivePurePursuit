@@ -10,6 +10,10 @@ public class Path {
 
 	private List<PathSegment> segments;
 
+	/**
+	 * Creates the path segment by pairing waypoints, {0,1},{1,2}...
+	 * @param waypoints
+	 */
 	public Path(List<Point2> waypoints) {
 		if (waypoints.size() < 2) {
 			throw new PathCreationError("Two or more waypoints needed to make a path from a waypoint list");
@@ -21,7 +25,11 @@ public class Path {
 			segments.add(new PathSegment(waypoints.get(i), waypoints.get(i + 1)));
 		}
 	}
-
+	
+	/**
+	 * Creates the path segment by pairing waypoints, {0,1},{1,2}...
+	 * @param waypoints
+	 */
 	public Path(Point2... waypoints) {
 		if (waypoints.length < 2) {
 			throw new PathCreationError("Two or more waypoints needed to make a path from a waypoint array");

@@ -5,7 +5,8 @@ import javafx.scene.Scene;
 public interface GUI {
 
 	/**
-	 * returns null if not overriden
+	 * 
+	 * @return null if not overridden
 	 */
 	public static Scene getScene() {
 		return null;

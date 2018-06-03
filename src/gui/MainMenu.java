@@ -154,6 +154,10 @@ public class MainMenu implements GUI {
 
 }
 
+/**
+ * 
+ * Data class used for GSON to convert Json to and from text to objects
+ */
 class JSONWaypoints {
 	public List<Point2> waypoints;
 

@@ -33,7 +33,7 @@ public class SimulateRobot implements GUI {
 	private static double lastUpdate;
 	private static AnimationTimer loop;
 	private static boolean stopLoop;
-
+	
 	public static Scene getScene() {
 		currentTime = 0;
 		lastUpdate = 0;
@@ -67,6 +67,7 @@ public class SimulateRobot implements GUI {
 		Label lbl_lookaheaddistance = new Label("Lookahead Distance m");
 		vb_lookaheaddistance.getChildren().addAll(lbl_lookaheaddistance, txtf_lookaheaddistance);
 		Button btn_simulateRobot = new Button("Simulate Robot Path");
+		btn_simulateRobot.setStyle(Styles.getButtonDefault());
 		btn_simulateRobot.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

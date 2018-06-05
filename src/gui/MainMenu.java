@@ -60,7 +60,9 @@ public class MainMenu implements GUI {
 		btn_github.setStyle(Styles.getButtonDefault());
 		Button btn_exit = new Button("exit");
 		btn_exit.setStyle(Styles.getButtonDefault());
-		hor_linksAndExit.getChildren().addAll(btn_github, btn_exit);
+		Button btn_settings = new Button("settings");
+		btn_settings.setStyle(Styles.getButtonDefault());
+		hor_linksAndExit.getChildren().addAll(btn_settings, btn_github, btn_exit);
 		hor_linksAndExit.setAlignment(Pos.CENTER);
 		verticalBox.getChildren().add(hor_linksAndExit);
 
@@ -145,6 +147,13 @@ public class MainMenu implements GUI {
 			@Override
 			public void handle(ActionEvent event) {
 				System.exit(0);
+			}
+		});
+
+		btn_settings.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Main.changeScene(Scenes.Settings);
 			}
 		});
 

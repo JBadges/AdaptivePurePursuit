@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	enum Scenes {
-		MainMenu, PathCreation, SimulateRobot
+		MainMenu, PathCreation, SimulateRobot, Settings
 	}
 
 	private static Stage primaryStage;
@@ -36,6 +36,9 @@ public class Main extends Application {
 			break;
 		case SimulateRobot:
 			primaryStage.setScene(SimulateRobot.getScene());
+			break;
+		case Settings:
+			primaryStage.setScene(Settings.getScene());
 			break;
 		}
 	}

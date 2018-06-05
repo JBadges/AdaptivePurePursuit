@@ -28,7 +28,7 @@ public class SkidRobot {
 	// Radius of pulley
 	private double kr = 0.065786 / 2.0;
 
-	public static double speedModifier = 15.0;
+	public static double speedModifier = 40;
 
 	private Point3 position;
 	//In m/s
@@ -41,12 +41,11 @@ public class SkidRobot {
 	private double robotWheelDistance;
 	private double wheelRadius;
 
-	public SkidRobot(double wheelDistance, double wheelRadius, double numberOfMotors, double robotMass, double speedModifier) {
+	public SkidRobot(double wheelDistance, double wheelRadius, double numberOfMotors, double robotMass) {
 		this.robotWheelDistance = wheelDistance;
 		this.wheelRadius = wheelRadius;
 		this.numMotors = numberOfMotors;
 		this.mass = robotMass;
-		SkidRobot.speedModifier = speedModifier;
 	}
 
 	private void updateLeftVelocity(double dt, double voltage) {

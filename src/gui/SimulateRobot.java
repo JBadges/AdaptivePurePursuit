@@ -92,7 +92,7 @@ public class SimulateRobot implements GUI {
 					//Input is valid - Commence robot simulation
 					if (isValidInput) {
 						//Robot information setup
-						SkidRobot robot = new SkidRobot(Double.parseDouble(txtf_wheelDist.getText()), 0.1016, 3, Double.parseDouble(txtf_robotMassKg.getText()), 50);
+						SkidRobot robot = new SkidRobot(Double.parseDouble(txtf_wheelDist.getText()), 0.1016, 3, Double.parseDouble(txtf_robotMassKg.getText()));
 						Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0, 0) : PathCreation.getWaypoints().get(0);
 						Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0, 0) : PathCreation.getWaypoints().get(1);
 						PathSegment startToSecond = new PathSegment(starting, second);
@@ -181,11 +181,9 @@ public class SimulateRobot implements GUI {
 		Scene scene = new Scene(sp, 800, 600);
 
 		scene.setOnKeyPressed(e -> {
-			switch (e.getCode()) {
-			case ESCAPE:
+			if (e.getCode() == Settings.backButton) {
 				stopLoop = true;
 				Main.changeScene(Scenes.PathCreation);
-				break;
 			}
 		});
 

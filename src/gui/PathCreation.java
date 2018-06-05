@@ -142,10 +142,8 @@ public class PathCreation implements GUI {
 		});
 
 		scene.setOnKeyPressed(e -> {
-			switch (e.getCode()) {
-			case ESCAPE:
+			if (e.getCode() == Settings.backButton) {
 				Main.changeScene(Scenes.MainMenu);
-				break;
 			}
 		});
 

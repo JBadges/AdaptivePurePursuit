@@ -33,7 +33,7 @@ public class SimulateRobot implements GUI {
 	private static double lastUpdate;
 	private static AnimationTimer loop;
 	private static boolean stopLoop;
-	
+
 	public static Scene getScene() {
 		currentTime = 0;
 		lastUpdate = 0;
@@ -149,6 +149,7 @@ public class SimulateRobot implements GUI {
 									robotDebugBase.setFill(new Color(0, 1, 0, 0.3));
 									robotDebugBase.setRotate(Math.toDegrees(robot.getPosition().getTheta()));
 									robotHeadingLine.setFill(new Color(1, 1, 1, 1));
+									robotLookahead.toBack();
 								} catch (NullPointerException e) {
 									Platform.runLater(alert::showAndWait);
 									stopLoop = true;
@@ -168,7 +169,6 @@ public class SimulateRobot implements GUI {
 
 						lastUpdate = System.nanoTime();
 						loop.start();
-
 						sp.getChildren().addAll(robotDebugBase, robotHeadingLine, robotLookahead, goalPointDebug);
 					}
 				}
@@ -176,10 +176,10 @@ public class SimulateRobot implements GUI {
 		});
 
 		vb_input.getChildren().addAll(vb_wheelDist, vb_robotMassKg, vb_lookaheaddistance, btn_simulateRobot);
-		sp.getChildren().add(0, vb_input);
+		sp.getChildren().add(vb_input);
 
 		Scene scene = new Scene(sp, 800, 600);
-		
+
 		scene.setOnKeyPressed(e -> {
 			switch (e.getCode()) {
 			case ESCAPE:

@@ -20,16 +20,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -40,7 +38,7 @@ public class MainMenu implements GUI {
 	public static Scene getScene() {
 		StackPane p = new StackPane();
 		VBox verticalBox = new VBox();
-		
+
 		//Logo
 		Text titleLogo = new Text("Pure Pursuit SimGen");
 		titleLogo.setStyle("-fx-font: 32 sans-serif;");

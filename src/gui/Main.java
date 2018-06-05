@@ -1,6 +1,8 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -21,6 +23,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Pure Pursuit SimGen");
 		changeScene(Scenes.MainMenu);
 		primaryStage.show();
+		new Alert(AlertType.INFORMATION, "The pure pursuit algorthm is not implemented to end at a specific location. It is not guarenteed to end at the last specified location. Hitting ESC will allow you to go back one screen.").showAndWait();
 	}
 
 	public static void changeScene(Scenes scene) {

@@ -25,9 +25,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -38,7 +40,7 @@ public class MainMenu implements GUI {
 	public static Scene getScene() {
 		StackPane p = new StackPane();
 		VBox verticalBox = new VBox();
-
+		
 		//Logo
 		Text titleLogo = new Text("Pure Pursuit SimGen");
 		titleLogo.setStyle("-fx-font: 32 sans-serif;");
@@ -46,20 +48,20 @@ public class MainMenu implements GUI {
 
 		//Create Path Button
 		Button btn_createPath = new Button("Create a new path");
-		btn_createPath.setStyle("-fx-font: 24 sans-serif;");
+		btn_createPath.setStyle(Styles.getButtonDefault());
 		verticalBox.getChildren().add(btn_createPath);
 
 		//Load Path Button
 		Button btn_loadPath = new Button("Load a saved path");
-		btn_loadPath.setStyle("-fx-font: 24 sans-serif;");
+		btn_loadPath.setStyle(Styles.getButtonDefault());
 		verticalBox.getChildren().add(btn_loadPath);
 
 		//Links & Exit
 		HBox hor_linksAndExit = new HBox(10);
 		Button btn_github = new Button("github");
-		btn_github.setStyle("-fx-font: 18 sans-serif;");
+		btn_github.setStyle(Styles.getButtonDefault());
 		Button btn_exit = new Button("exit");
-		btn_exit.setStyle("-fx-font: 12 sans-serif;");
+		btn_exit.setStyle(Styles.getButtonDefault());
 		hor_linksAndExit.getChildren().addAll(btn_github, btn_exit);
 		hor_linksAndExit.setAlignment(Pos.CENTER);
 		verticalBox.getChildren().add(hor_linksAndExit);

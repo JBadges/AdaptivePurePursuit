@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -40,20 +41,26 @@ public class PathCreation implements GUI {
 
 		Pane pane = new Pane();
 
+		//Clickable Area
+		Rectangle clickArea = new Rectangle(800, 600-70);
+		clickArea.setFill(new Color(216/256.0,216/256.0,216/256.0, 1));
+		clickArea.setY(70);
+		pane.getChildren().add(clickArea);
+		
 		//Finish Path Button
 		Button btn_finishPath = new Button("Finish Path");
-		btn_finishPath.setStyle("-fx-font: 24 sans-serif;");
+		btn_finishPath.setStyle(Styles.getButtonDefault());
 		btn_finishPath.setPrefWidth(200);
-		btn_finishPath.setLayoutY(20);
+		btn_finishPath.setLayoutY(10);
 		btn_finishPath.setPrefHeight(50);
 		btn_finishPath.setLayoutX(400 - btn_finishPath.getPrefWidth() - 10);
 		pane.getChildren().add(btn_finishPath);
 
 		//Save Path Button
 		Button btn_savePath = new Button("Save Path");
-		btn_savePath.setStyle("-fx-font: 24 sans-serif;");
+		btn_savePath.setStyle(Styles.getButtonDefault());
 		btn_savePath.setPrefWidth(200);
-		btn_savePath.setLayoutY(20);
+		btn_savePath.setLayoutY(10);
 		btn_savePath.setPrefHeight(50);
 		btn_savePath.setLayoutX(400 + 10);
 		pane.getChildren().add(btn_savePath);
@@ -131,6 +138,14 @@ public class PathCreation implements GUI {
 					stackPane.setLayoutY(circ.getCenterY() - 5);
 					pane.getChildren().add(stackPane);
 				}
+			}
+		});
+		
+		scene.setOnKeyPressed(e -> {
+			switch (e.getCode()) {
+			case ESCAPE:
+				Main.changeScene(Scenes.MainMenu);
+				break;
 			}
 		});
 

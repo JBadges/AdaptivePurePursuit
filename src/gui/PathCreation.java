@@ -14,10 +14,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -42,11 +42,11 @@ public class PathCreation implements GUI {
 		Pane pane = new Pane();
 
 		//Clickable Area
-		Rectangle clickArea = new Rectangle(800, 600-70);
-		clickArea.setFill(new Color(216/256.0,216/256.0,216/256.0, 1));
+		Rectangle clickArea = new Rectangle(800, 600 - 70);
+		clickArea.setFill(new Color(216 / 256.0, 216 / 256.0, 216 / 256.0, 1));
 		clickArea.setY(70);
 		pane.getChildren().add(clickArea);
-		
+
 		//Finish Path Button
 		Button btn_finishPath = new Button("Finish Path");
 		btn_finishPath.setStyle(Styles.getButtonDefault());
@@ -140,7 +140,7 @@ public class PathCreation implements GUI {
 				}
 			}
 		});
-		
+
 		scene.setOnKeyPressed(e -> {
 			switch (e.getCode()) {
 			case ESCAPE:

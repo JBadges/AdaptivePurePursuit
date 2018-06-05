@@ -23,7 +23,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Pure Pursuit SimGen");
 		changeScene(Scenes.MainMenu);
 		primaryStage.show();
-		new Alert(AlertType.INFORMATION, "The pure pursuit algorthm is not implemented to end at a specific location. It is not guarenteed to end at the last specified location. Hitting ESC will allow you to go back one screen.").showAndWait();
+		new Alert(AlertType.INFORMATION, "The pure pursuit algorithm is not implemented to end at a specific location. It is not guaranteed to end at the last specified location. Hitting ESC will allow you to go back one screen.").showAndWait();
 	}
 
 	public static void changeScene(Scenes scene) {

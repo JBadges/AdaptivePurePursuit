@@ -33,7 +33,7 @@ public class SimulateRobot implements GUI {
 	private static double lastUpdate;
 	private static AnimationTimer loop;
 	private static boolean stopLoop;
-	
+
 	public static Scene getScene() {
 		currentTime = 0;
 		lastUpdate = 0;

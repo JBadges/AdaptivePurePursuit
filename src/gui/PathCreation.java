@@ -50,13 +50,13 @@ public class PathCreation implements GUI {
 
 		Pane pane = new Pane();
 
-		//Clickable Area
+		//Define Clickable Area
 		Rectangle clickArea = new Rectangle(800, 600 - 70);
 		clickArea.setFill(new Color(216 / 256.0, 216 / 256.0, 216 / 256.0, 1));
 		clickArea.setY(70);
 		pane.getChildren().add(clickArea);
 
-		//Finish Path Button
+		//Define "Finish Path" Button
 		Button btn_finishPath = new Button("Finish Path");
 		btn_finishPath.setStyle(Styles.getButtonDefault());
 		btn_finishPath.setPrefWidth(200);
@@ -65,7 +65,7 @@ public class PathCreation implements GUI {
 		btn_finishPath.setLayoutX(400 - btn_finishPath.getPrefWidth() - 10);
 		pane.getChildren().add(btn_finishPath);
 
-		//Save Path Button
+		//Define "Save Path" Button
 		Button btn_savePath = new Button("Save Path");
 		btn_savePath.setStyle(Styles.getButtonDefault());
 		btn_savePath.setPrefWidth(200);
@@ -74,7 +74,10 @@ public class PathCreation implements GUI {
 		btn_savePath.setLayoutX(400 + 10);
 		pane.getChildren().add(btn_savePath);
 
-		//Button Functionality
+		/*
+		 * Handler for "Finish Path" button
+		 * If there are at least two waypoints, switch to the SimulateRobot scene
+		 */
 		btn_finishPath.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -84,7 +87,11 @@ public class PathCreation implements GUI {
 			}
 		});
 
-		//Button Functionality
+		/*
+		 * Handler for "Save Path" button
+		 * If there are at least two waypoints, save the waypoints into a JSON
+		 * Request the user for a location to save the file
+		 */
 		btn_savePath.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -123,7 +130,10 @@ public class PathCreation implements GUI {
 		});
 
 		Scene scene = new Scene(pane, 800, 600);
-		//Screen waypoint clicking
+		/*
+		 * Screen waypoint clicking
+		 * Mouse click handler
+		 */
 		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -149,7 +159,10 @@ public class PathCreation implements GUI {
 				}
 			}
 		});
-
+		
+		/*
+		 * Handler for escape button to return to home screen
+		 */
 		scene.setOnKeyPressed(e -> {
 			if (e.getCode() == Settings.backButton) {
 				Main.changeScene(Scenes.MainMenu);
@@ -167,15 +180,24 @@ public class PathCreation implements GUI {
 		}
 	}
 
+	/*
+	 * @return the path defined by the user
+	 */
 	public Path getPath() {
 		Point2[] arr = getWaypoints().toArray(new Point2[0]);
 		return new Path(arr);
 	}
 
+	/*
+	 * @return the waypoints defined by the user
+	 */
 	public List<Point2> getWaypoints() {
 		return waypoints;
 	}
 
+	/*
+	 * @return the waypointCircles
+	 */
 	public List<StackPane> getCircles() {
 		return waypointCircles;
 	}

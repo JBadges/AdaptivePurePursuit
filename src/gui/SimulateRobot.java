@@ -29,12 +29,21 @@ import util.Twist;
 public class SimulateRobot implements GUI {
 
 	//Time seconds
-	private static double currentTime;
-	private static double lastUpdate;
-	private static AnimationTimer loop;
-	private static boolean stopLoop;
+	private double currentTime;
+	private double lastUpdate;
+	private AnimationTimer loop;
+	private boolean stopLoop;
 
-	public static Scene getScene() {
+	private static SimulateRobot instance;
+
+	public static SimulateRobot getInstance() {
+		if (instance == null) {
+			instance = new SimulateRobot();
+		}
+		return instance;
+	}
+
+	public Scene getScene() {
 		currentTime = 0;
 		lastUpdate = 0;
 		loop = null;
@@ -43,14 +52,14 @@ public class SimulateRobot implements GUI {
 		Pane sp = new Pane();
 
 		//Draw Lines between points before the waypoints so they are beneath
-		for (int i = 0; i < PathCreation.getWaypoints().size() - 1; i++) {
-			Point2 a = PathCreation.getWaypoints().get(i);
-			Point2 b = PathCreation.getWaypoints().get(i + 1);
+		for (int i = 0; i < PathCreation.getInstance().getWaypoints().size() - 1; i++) {
+			Point2 a = PathCreation.getInstance().getWaypoints().get(i);
+			Point2 b = PathCreation.getInstance().getWaypoints().get(i + 1);
 			sp.getChildren().add(new Line(a.getX(), a.getY(), b.getX(), b.getY()));
 		}
 		//Draw waypoints from PathCreation
-		PathCreation.circleColors(PathCreation.getCircles());
-		sp.getChildren().addAll(PathCreation.getCircles());
+		PathCreation.getInstance().circleColors(PathCreation.getInstance().getCircles());
+		sp.getChildren().addAll(PathCreation.getInstance().getCircles());
 
 		//Input
 		VBox vb_input = new VBox();
@@ -93,8 +102,8 @@ public class SimulateRobot implements GUI {
 					if (isValidInput) {
 						//Robot information setup
 						SkidRobot robot = new SkidRobot(Double.parseDouble(txtf_wheelDist.getText()), 0.1016, 3, Double.parseDouble(txtf_robotMassKg.getText()));
-						Point2 starting = PathCreation.getWaypoints().size() < 1 ? new Point2(0, 0) : PathCreation.getWaypoints().get(0);
-						Point2 second = PathCreation.getWaypoints().size() < 2 ? new Point2(0, 0) : PathCreation.getWaypoints().get(1);
+						Point2 starting = PathCreation.getInstance().getWaypoints().size() < 1 ? new Point2(0, 0) : PathCreation.getInstance().getWaypoints().get(0);
+						Point2 second = PathCreation.getInstance().getWaypoints().size() < 2 ? new Point2(0, 0) : PathCreation.getInstance().getWaypoints().get(1);
 						PathSegment startToSecond = new PathSegment(starting, second);
 						robot.setPosition(new Point3(starting.getX(), starting.getY(), second.getX() < starting.getX() ? Math.atan(startToSecond.getSlope()) + Math.PI : Math.atan(startToSecond.getSlope())));
 						//Robot design setup
@@ -105,7 +114,7 @@ public class SimulateRobot implements GUI {
 						final Line robotHeadingLine = new Line(robotDebugBase.getCenterX(), robotDebugBase.getCenterY(), 5 * Math.cos(robot.getPosition().getTheta()), 5 * Math.sin(robot.getPosition().getTheta()));
 						Path path = null;
 						try {
-							path = PathCreation.getPath();
+							path = PathCreation.getInstance().getPath();
 						} catch (PathCreationError e) {
 							new Alert(AlertType.ERROR, "Error Creating Path", ButtonType.OK).showAndWait();
 						}

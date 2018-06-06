@@ -20,7 +20,16 @@ public class Settings implements GUI {
 
 	public static KeyCode backButton = KeyCode.ESCAPE;
 
-	public static Scene getScene() {
+	private static Settings instance;
+
+	public static Settings getInstance() {
+		if (instance == null) {
+			instance = new Settings();
+		}
+		return instance;
+	}
+
+	public Scene getScene() {
 
 		StackPane p = new StackPane();
 		Scene scene = new Scene(p, 800, 600);

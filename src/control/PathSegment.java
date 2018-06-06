@@ -9,6 +9,7 @@ public class PathSegment {
 
 	/**
 	 * Calls the two Point2 constructor
+	 * 
 	 * @param x1
 	 * @param y1
 	 * @param x2
@@ -20,6 +21,7 @@ public class PathSegment {
 
 	/**
 	 * Sets both parameters to instance variables
+	 * 
 	 * @param start
 	 * @param end
 	 */
@@ -30,6 +32,7 @@ public class PathSegment {
 
 	/**
 	 * Uses dot and cross product with distance to solve
+	 * 
 	 * @param point
 	 * @return - if the point is contained within the path segment
 	 */
@@ -62,12 +65,13 @@ public class PathSegment {
 
 	/**
 	 * Rise over Run
+	 * 
 	 * @return the slope value as a decimal
 	 */
 	public double getSlope() {
 		return (this.end.getY() - this.start.getY()) / (this.end.getX() - this.start.getX());
 	}
-	
+
 	/**
 	 * 
 	 * @return the y intercept of the line if infinitely extended
@@ -79,7 +83,7 @@ public class PathSegment {
 	public double getLength() {
 		return start.distanceTo(end);
 	}
-	
+
 	/**
 	 * 
 	 * @return the intersection of two lines if both are infinitely extended

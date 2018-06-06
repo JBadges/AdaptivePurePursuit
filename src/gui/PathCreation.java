@@ -31,10 +31,19 @@ import util.Point2;
 
 public class PathCreation implements GUI {
 
-	private static List<Point2> waypoints = new ArrayList<>();
-	private static List<StackPane> waypointCircles = new ArrayList<>();
+	private List<Point2> waypoints = new ArrayList<>();
+	private List<StackPane> waypointCircles = new ArrayList<>();
 
-	public static Scene getScene() {
+	private static PathCreation instance;
+
+	public static PathCreation getInstance() {
+		if (instance == null) {
+			instance = new PathCreation();
+		}
+		return instance;
+	}
+
+	public Scene getScene() {
 		//Initialize
 		waypoints.clear();
 		waypointCircles.clear();
@@ -150,7 +159,7 @@ public class PathCreation implements GUI {
 		return scene;
 	}
 
-	public static void circleColors(List<StackPane> points) {
+	public void circleColors(List<StackPane> points) {
 		for (int i = 0; i < waypointCircles.size(); i++) {
 			double scalar = 1.0 / waypointCircles.size();
 			Circle c = (Circle) waypointCircles.get(i).getChildren().get(0);
@@ -158,16 +167,16 @@ public class PathCreation implements GUI {
 		}
 	}
 
-	public static Path getPath() {
+	public Path getPath() {
 		Point2[] arr = getWaypoints().toArray(new Point2[0]);
 		return new Path(arr);
 	}
 
-	public static List<Point2> getWaypoints() {
+	public List<Point2> getWaypoints() {
 		return waypoints;
 	}
 
-	public static List<StackPane> getCircles() {
+	public List<StackPane> getCircles() {
 		return waypointCircles;
 	}
 

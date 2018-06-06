@@ -12,6 +12,7 @@ public class Path {
 
 	/**
 	 * Creates the path segment by pairing waypoints, {0,1},{1,2}...
+	 * 
 	 * @param waypoints
 	 */
 	public Path(List<Point2> waypoints) {
@@ -25,9 +26,10 @@ public class Path {
 			segments.add(new PathSegment(waypoints.get(i), waypoints.get(i + 1)));
 		}
 	}
-	
+
 	/**
 	 * Creates the path segment by pairing waypoints, {0,1},{1,2}...
+	 * 
 	 * @param waypoints
 	 */
 	public Path(Point2... waypoints) {

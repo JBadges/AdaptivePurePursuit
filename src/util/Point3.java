@@ -8,7 +8,7 @@ public class Point3 extends Point2 {
 	public Point3(Point2 point, double theta) {
 		this(point.getX(), point.getY(), theta);
 	}
-	
+
 	public Point3(double x, double y) {
 		this(x, y, 0);
 	}

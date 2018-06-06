@@ -6,10 +6,8 @@ public interface GUI {
 
 	/**
 	 * 
-	 * @return null if not overridden
+	 * @return the scene to display
 	 */
-	public static Scene getScene() {
-		return null;
-	}
+	public Scene getScene();
 
 }

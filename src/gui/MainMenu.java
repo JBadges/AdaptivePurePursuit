@@ -35,7 +35,16 @@ import util.Point2;
 
 public class MainMenu implements GUI {
 
-	public static Scene getScene() {
+	private static MainMenu instance;
+
+	public static MainMenu getInstance() {
+		if (instance == null) {
+			instance = new MainMenu();
+		}
+		return instance;
+	}
+
+	public Scene getScene() {
 		StackPane p = new StackPane();
 		VBox verticalBox = new VBox();
 
@@ -102,22 +111,22 @@ public class MainMenu implements GUI {
 							e.printStackTrace();
 						}
 						JSONWaypoints waypoints = gson.fromJson(reader, JSONWaypoints.class);
-						PathCreation.getWaypoints().clear();
-						PathCreation.getWaypoints().addAll(waypoints.waypoints);
+						PathCreation.getInstance().getWaypoints().clear();
+						PathCreation.getInstance().getWaypoints().addAll(waypoints.waypoints);
 
-						for (int j = 0; j < PathCreation.getWaypoints().size(); j++) {
+						for (int j = 0; j < PathCreation.getInstance().getWaypoints().size(); j++) {
 							StackPane stackPane = new StackPane();
 
-							Circle circ = new Circle(PathCreation.getWaypoints().get(j).getX(), PathCreation.getWaypoints().get(j).getY(), 5);
-							Label circleLabel = new Label("" + PathCreation.getCircles().size());
+							Circle circ = new Circle(PathCreation.getInstance().getWaypoints().get(j).getX(), PathCreation.getInstance().getWaypoints().get(j).getY(), 5);
+							Label circleLabel = new Label("" + PathCreation.getInstance().getCircles().size());
 							circleLabel.setTextAlignment(TextAlignment.CENTER);
 							circ.radiusProperty().bind(circleLabel.widthProperty());
 
 							stackPane.getChildren().addAll(circ, circleLabel);
-							PathCreation.getCircles().add(stackPane);
+							PathCreation.getInstance().getCircles().add(stackPane);
 
 							//Changing the color based on number of waypoints
-							PathCreation.circleColors(PathCreation.getCircles());
+							PathCreation.getInstance().circleColors(PathCreation.getInstance().getCircles());
 
 							stackPane.setLayoutX(circ.getCenterX() - 5);
 							stackPane.setLayoutY(circ.getCenterY() - 5);

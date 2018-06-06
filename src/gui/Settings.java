@@ -79,7 +79,7 @@ public class Settings implements GUI {
 		btn_saveAndExit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (txtFld_speedMultiplier.getText().matches("-?\\d+(\\.\\d+)?")) {
+				if (txtFld_speedMultiplier.getText().matches("^[+]?([.]\\d+|\\d+[.]?\\d*)$")) {
 					SkidRobot.speedModifier = Double.parseDouble(txtFld_speedMultiplier.getText());
 				}
 				Main.changeScene(Scenes.MainMenu);

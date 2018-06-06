@@ -33,6 +33,7 @@ public class Point2 {
 
 	/**
 	 * The distance from this point to the parameter point
+	 * 
 	 * @param point
 	 * @return sqrt(x^2 + y^2)
 	 */
@@ -42,15 +43,17 @@ public class Point2 {
 
 	/**
 	 * The dot product of the x,y values of the points
+	 * 
 	 * @param a
 	 * @return
 	 */
 	public double dot(Point2 a) {
 		return getX() * a.getX() + getY() * a.getY();
 	}
-	
+
 	/**
 	 * The cross product of the x,y values of the points
+	 * 
 	 * @param a
 	 * @return
 	 */
@@ -62,10 +65,10 @@ public class Point2 {
 	public String toString() {
 		return "x: " + x + " y: " + y;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		return Math.abs(((Point2) obj).getX() - this.getX()) < 1e-5 && Math.abs(((Point2) obj).getY() - this.getY()) < 1e-5;	
+		return Math.abs(((Point2) obj).getX() - this.getX()) < 1e-5 && Math.abs(((Point2) obj).getY() - this.getY()) < 1e-5;
 	}
 
 }

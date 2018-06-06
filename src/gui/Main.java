@@ -29,16 +29,16 @@ public class Main extends Application {
 	public static void changeScene(Scenes scene) {
 		switch (scene) {
 		case MainMenu:
-			primaryStage.setScene(MainMenu.getScene());
+			primaryStage.setScene(MainMenu.getInstance().getScene());
 			break;
 		case PathCreation:
-			primaryStage.setScene(PathCreation.getScene());
+			primaryStage.setScene(PathCreation.getInstance().getScene());
 			break;
 		case SimulateRobot:
-			primaryStage.setScene(SimulateRobot.getScene());
+			primaryStage.setScene(SimulateRobot.getInstance().getScene());
 			break;
 		case Settings:
-			primaryStage.setScene(Settings.getScene());
+			primaryStage.setScene(Settings.getInstance().getScene());
 			break;
 		}
 	}

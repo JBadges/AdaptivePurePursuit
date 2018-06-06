@@ -86,15 +86,15 @@ public class SimulateRobot implements GUI {
 				} else {
 					//Check user input and show if invalid
 					boolean isValidInput = true;
-					if (!txtf_wheelDist.getText().matches("-?\\d+(\\.\\d+)?")) {
+					if (!txtf_wheelDist.getText().matches("^[+]?([.]\\d+|\\d+[.]?\\d*)$")) {
 						txtf_wheelDist.setText("Must be numeric");
 						isValidInput = false;
 					}
-					if (!txtf_robotMassKg.getText().matches("-?\\d+(\\.\\d+)?")) {
+					if (!txtf_robotMassKg.getText().matches("^[+]?([.]\\d+|\\d+[.]?\\d*)$")) {
 						txtf_robotMassKg.setText("Must be numeric");
 						isValidInput = false;
 					}
-					if (!txtf_lookaheaddistance.getText().matches("-?\\d+(\\.\\d+)?")) {
+					if (!txtf_lookaheaddistance.getText().matches("^[+]?([.]\\d+|\\d+[.]?\\d*)$")) {
 						txtf_lookaheaddistance.setText("Must be numeric");
 						isValidInput = false;
 					}

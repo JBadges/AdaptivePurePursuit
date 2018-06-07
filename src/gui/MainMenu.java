@@ -112,6 +112,7 @@ public class MainMenu implements GUI {
 						}
 						JSONWaypoints waypoints = gson.fromJson(reader, JSONWaypoints.class);
 						PathCreation.getInstance().getWaypoints().clear();
+						PathCreation.getInstance().getCircles().clear();
 						PathCreation.getInstance().getWaypoints().addAll(waypoints.waypoints);
 
 						for (int j = 0; j < PathCreation.getInstance().getWaypoints().size(); j++) {

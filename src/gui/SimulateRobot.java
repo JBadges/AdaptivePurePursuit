@@ -124,7 +124,7 @@ public class SimulateRobot implements GUI {
 							@Override
 							public void handle(long now) {
 								btn_simulateRobot.setText("Start a new path");
-								if (currentTime > 60 || stopLoop) {
+								if (stopLoop) {
 									this.stop();
 								}
 								final double dt = (now - lastUpdate) / 1000000000.0;

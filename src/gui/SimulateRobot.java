@@ -29,7 +29,6 @@ import util.Twist;
 public class SimulateRobot implements GUI {
 
 	//Time seconds
-	private double currentTime;
 	private double lastUpdate;
 	private AnimationTimer loop;
 	private boolean stopLoop;
@@ -44,7 +43,6 @@ public class SimulateRobot implements GUI {
 	}
 
 	public Scene getScene() {
-		currentTime = 0;
 		lastUpdate = 0;
 		loop = null;
 		stopLoop = false;
@@ -136,8 +134,6 @@ public class SimulateRobot implements GUI {
 									double voltageLeft = voltages[0];
 									double voltageRight = voltages[1];
 									robot.updatePos(dt, voltageLeft, voltageRight);
-
-									currentTime += dt;
 
 									//Update display
 									Point3 goalP = app.getGoalPoint(robot.getPosition(), lookahead);

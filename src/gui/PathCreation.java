@@ -75,8 +75,8 @@ public class PathCreation implements GUI {
 		pane.getChildren().add(btn_savePath);
 
 		/*
-		 * Handler for "Finish Path" button
-		 * If there are at least two waypoints, switch to the SimulateRobot scene
+		 * Handler for "Finish Path" button If there are at least two waypoints,
+		 * switch to the SimulateRobot scene
 		 */
 		btn_finishPath.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -88,9 +88,9 @@ public class PathCreation implements GUI {
 		});
 
 		/*
-		 * Handler for "Save Path" button
-		 * If there are at least two waypoints, save the waypoints into a JSON
-		 * Request the user for a location to save the file
+		 * Handler for "Save Path" button If there are at least two waypoints,
+		 * save the waypoints into a JSON Request the user for a location to
+		 * save the file
 		 */
 		btn_savePath.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -131,8 +131,7 @@ public class PathCreation implements GUI {
 
 		Scene scene = new Scene(pane, 800, 600);
 		/*
-		 * Screen waypoint clicking
-		 * Mouse click handler
+		 * Screen waypoint clicking Mouse click handler
 		 */
 		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
@@ -159,7 +158,7 @@ public class PathCreation implements GUI {
 				}
 			}
 		});
-		
+
 		/*
 		 * Handler for escape button to return to home screen
 		 */
